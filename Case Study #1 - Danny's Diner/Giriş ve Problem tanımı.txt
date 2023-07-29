@@ -1,0 +1,37 @@
+GİRİŞ
+Danny Japon yemeklerini çok sevmektedir ve 2021'in başında riskli bir girişimde bulunmaya karar verir 
+ve en sevdiği 3 yemeği satan şirin bir restoran açar: suşi, köri ve ramen.
+Danny's Diner, restoranın ayakta kalmasına yardımcı olmak için yardımınıza ihtiyaç duyuyor - restoran, 
+birkaç aylık faaliyetlerinden bazı çok temel verileri yakaladı, ancak işletmeyi yönetmelerine yardımcı olmak 
+için verilerini nasıl kullanacakları konusunda hiçbir fikirleri yok.
+
+
+
+SORUN BİLDİRİMİ
+Danny, verileri müşterileri hakkında, özellikle de ziyaret alışkanlıkları, 
+ne kadar para harcadıkları ve hangi menü öğelerinin en sevdikleri hakkında birkaç 
+basit soruyu yanıtlamak için kullanmak istiyor. Müşterileriyle bu şekilde daha 
+derin bir bağ kurması, sadık müşterilerine daha iyi ve daha kişiselleştirilmiş bir 
+deneyim sunmasına yardımcı olacak. Bu bilgileri, mevcut müşteri sadakat programını 
+genişletip genişletmemeye karar vermesine yardımcı olması için kullanmayı planlıyor.
+
+
+3 TANE TABLO BULUNMAKTADIR;
+-sales
+-menu
+-members
+
+
+SORULAR:
+1 Her bir müşterinin restoranda harcadığı toplam tutar nedir?
+2 Her bir müşteri restoranı kaç gün ziyaret etmiştir?
+3 Her bir müşteri tarafından menüden satın alınan ilk ürün neydi?
+4 Menüde en çok satın alınan ürün nedir ve tüm müşteriler tarafından kaç kez satın alınmıştır?
+5 Her bir müşteri için en popüler ürün hangisiydi?
+6 Müşteri üye olduktan sonra ilk olarak hangi ürünü satın aldı?
+7 Müşteri üye olmadan hemen önce hangi ürünü satın aldı?
+8 Üye olmadan önce her bir üye için toplam ürün ve harcanan miktar nedir?
+9 Harcanan her 1 dolar 10 puana eşitse ve suşi 2 kat puan çarpanına sahipse - her müşterinin kaç puanı olur?
+10 Bir müşteri programa katıldıktan sonraki ilk hafta (katılım tarihleri de dahil olmak üzere) 
+sadece suşi değil, tüm ürünlerde 2 kat puan kazanır - A ve B müşterilerinin Ocak ayı sonunda kaç puanları vardır?
+
