@@ -1,4 +1,4 @@
-### 8 Week SQL Challenge
+### :diamond_shape_with_a_dot_inside: 8 Week SQL Challenge
 
 ![img](https://8weeksqlchallenge.com/images/8-week-sql-challenge.png)
 
