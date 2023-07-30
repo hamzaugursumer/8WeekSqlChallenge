@@ -70,8 +70,8 @@ alter table runner_orders_clean rename to runner_orders
 ## SOLUTIONS
 ## A. Pizza Metrics--
 
-## 1 How many pizzas were ordered?
-## (Kaç pizza sipariş edildi?)
+1 How many pizzas were ordered?
+(Kaç pizza sipariş edildi?)
 
 ````sql
 select count(order_id) as ordered_pizza 
