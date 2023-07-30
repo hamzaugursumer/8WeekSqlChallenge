@@ -421,3 +421,146 @@ ON t1.pizza_id = t2.pizza_id
 where t1.pizza_id = 1
 order by order_id
 `````
+
+## D. Pricing and Ratings
+
+1.If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money 
+has Pizza Runner made so far if there are no delivery fees?
+
+(Eğer bir Et Severler pizzası 12$ ve Vejetaryen 10$ ise ve değişiklik için ücret alınmıyorsa - 
+Pizza Runner teslimat ücreti olmadan şimdiye kadar ne kadar para kazanmıştır?)
+````sql
+with meatlovers as
+		(
+select 
+	 count(co.order_id) as order_count
+from customer_orders as co
+left join runner_orders as ro
+ON ro.order_id = co.order_id
+where pizza_id = 1 and cancellation is null
+		),
+vegetarian as 
+		(
+select 
+	count(co.order_id) as order_count
+from customer_orders as co
+left join runner_orders as ro
+ON ro.order_id = co.order_id
+where pizza_id = 2 and cancellation is null
+		)
+select concat((m.order_count*12+v.order_count*10),'$') as total_cost
+from meatlovers as m
+cross join vegetarian as v
+`````
+
+2.What if there was an additional $1 charge for any pizza extras?
+Add cheese is $1 extra
+
+(Herhangi bir pizza ekstrası için 1 dolar ek ücret alınsa nasıl olur?
+Peynir eklemek ekstra 1 dolar)
+````sql
+with t1 as 
+(
+    select *,
+           length(extras) - length(replace(extras, ',', '')) + 1 as topping_count
+    from customer_orders
+    inner join pizza_names using (pizza_id)
+    inner join runner_orders using (order_id)
+    where cancellation is null
+    order by order_id
+),
+
+t2 as 
+(
+select sum(case when pizza_id = 1 then 12 else 10 end) as pizza_revenue,
+       sum(topping_count) as topping_revenue
+from t1
+)
+select concat('$', topping_revenue + pizza_revenue) as total_revenue
+from t2;
+`````
+
+3.The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, 
+how would you design an additional table for this new dataset - generate a schema for this new table and insert 
+your own data for ratings for each successful customer order between 1 to 5.
+
+(Pizza Runner ekibi şimdi müşterilerin koşucularını derecelendirmelerine olanak tanıyan ek bir derecelendirme 
+sistemi eklemek istiyor, bu yeni veri kümesi için ek bir tabloyu nasıl tasarlarsınız - bu yeni tablo için bir 
+şema oluşturun ve her başarılı müşteri siparişi için 1 ila 5 arasında derecelendirmeler için kendi verilerinizi ekleyin.)
+````sql
+CREATE TABLE runner_rating (order_id INTEGER, 
+							rating INTEGER, 
+							review TEXT)
+-- rating point 1-5
+-- Order 6 and 9 were cancelled
+INSERT INTO runner_rating
+VALUES ('1', '1'),
+       ('2', '1'),
+       ('3', '4'),
+       ('4', '1'),
+       ('5', '2'),
+       ('7', '5'),
+       ('8', '2'),
+       ('10', '5')
+
+select * from runner_rating
+`````
+
+4.Using your newly generated table - can you join all of the information together to 
+form a table which has the following information for successful deliveries?
+customer_id
+order_id
+runner_id
+rating
+order_time
+pickup_time
+Time between order and pickup
+Delivery duration
+Average speed
+Total number of pizzas
+
+(Yeni oluşturduğunuz tabloyu kullanarak - başarılı teslimatlar için aşağıdaki bilgileri içeren bir tablo oluşturmak üzere tüm bilgileri birleştirebilir misiniz?
+müşteri_id order_id runner_id derecelendirme order_time teslim alma_zamanı Sipariş ile teslim alma arasındaki süre Teslimat süresi Ortalama hız Toplam pizza sayısı)
+````sql
+select
+		co.customer_id,
+		co.order_id,
+		ro.order_id,
+		rr.rating,
+		co.order_time,
+		ro.pickup_time,
+	    EXTRACT(minute FROM AGE(ro.pickup_time::timestamp, co.order_time::timestamp))::numeric AS delivery_duration,
+		ro.duration,
+		round(ro.distance::numeric*60/ro.duration::numeric,2) as avg_speed,
+		count(co.order_id) as order_count
+from customer_orders as co
+left join pizza_names as pn
+ON pn.pizza_id= co.pizza_id
+left join runner_orders as ro
+ON ro.order_id = co.order_id
+left join runner_rating as rr
+ON rr.order_id = ro.order_id
+where ro.cancellation is null
+group by 1,2,3,4,5,6,7,8,9
+order by customer_id
+`````
+
+5.If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner 
+is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
+
+(Eğer Et Severler için pizza 12$ ve Vejetaryen için 10$ sabit fiyatlıysa ve her bir koşucuya kat edilen kilometre 
+başına 0,30$ ödeniyorsa - Pizza Runner'ın bu teslimatlardan sonra ne kadar parası kalır?)*/
+````sql
+with table1 as 
+(
+select  sum(case 
+		when pizza_id = 1 then 12 else 10 end) as total_cost,
+		round(sum(distance::numeric)*0.30,2) as sum_distance
+from customer_orders as co
+left join runner_orders as ro
+ON ro.order_id = co.order_id
+where cancellation is null
+)
+select total_cost-sum_distance as runner_orders_cost
+from table1 
+`````
