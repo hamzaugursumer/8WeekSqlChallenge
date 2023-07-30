@@ -196,3 +196,14 @@ order by 2 desc
 
 ## B. Runner and Customer Experience
 
+1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
+
+(Her 1 haftalık dönem için kaç koşucu kaydoldu? (yani hafta 2021-01-01'de başlar))
+````sql
+select 
+	to_char(registration_date, 'w') as weeks_
+	count(runner_id),
+from runners
+group by 2
+order by 2 
+`````
