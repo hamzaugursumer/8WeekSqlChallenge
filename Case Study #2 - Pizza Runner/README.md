@@ -71,6 +71,7 @@ alter table runner_orders_clean rename to runner_orders
 ## A. Pizza Metrics--
 
 1 How many pizzas were ordered?
+
 (Kaç pizza sipariş edildi?)
 
 ````sql
