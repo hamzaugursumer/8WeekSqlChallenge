@@ -78,3 +78,12 @@ alter table runner_orders_clean rename to runner_orders
 select count(order_id) as ordered_pizza 
 from customer_orders
 `````
+2 How many unique customer orders were made?
+
+(Kaç adet benzersiz müşteri siparişi verildi)?
+
+
+````sql
+select count(distinct order_id) as unique_order 
+from customer_orders
+`````
