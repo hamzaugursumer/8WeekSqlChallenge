@@ -68,7 +68,7 @@ alter table runner_orders_clean rename to runner_orders
 `````
 
 ## SOLUTIONS
-## A. Pizza Metrics--
+## A. Pizza Metrics
 
 1 How many pizzas were ordered?
 
