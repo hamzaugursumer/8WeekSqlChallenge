@@ -1,9 +1,3 @@
---pizza runner case#2
---8weeksqlchallenge.com
---#8weeksqlchallenge
-
---Hamza Uğur Sümer
-
 --Data
 CREATE SCHEMA pizza_runner;
 SET search_path = pizza_runner;
