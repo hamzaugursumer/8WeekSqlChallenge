@@ -312,4 +312,112 @@ FROM runner_orders
 GROUP BY runner_id;
 `````
 
+## C. Ingredient Optimisation
 
+1. What are the standard ingredients for each pizza?
+
+(Her pizza için standart malzemeler nelerdir?)
+````sql
+with table1 as 
+(
+select 
+	unnest(string_to_array(toppings,', '))::numeric as recipes_id,
+	pr.pizza_id,
+	pizza_name
+from pizza_recipes as pr
+left join pizza_names as pn
+ON pn.pizza_id = pr.pizza_id
+)
+select pizza_name,
+	   pt.topping_name		 
+from table1 as t1
+left join pizza_toppings as pt
+ON t1.recipes_id = pt.topping_id
+order by pizza_id
+`````
+
+2. What was the most commonly added extra?
+
+(En sık eklenen ekstra neydi?)
+````sql
+with table1 as 
+(
+select order_id,
+	   unnest(string_to_array(extras,', '))::numeric as extras_id
+from customer_orders as co
+where extras is not null
+)
+select count(order_id),
+	   pt.topping_name
+from table1 as t1
+left join pizza_toppings as pt
+ON pt.topping_id = t1.extras_id
+group by 2
+order by 1 desc
+`````
+
+3. What was the most common exclusion?
+
+(En yaygın kullanılmayan malzeme neydi?)
+````sql
+with table1 as 
+(
+select order_id,
+	   unnest(string_to_array(exclusions, ', '))::numeric as exclusions_id
+from customer_orders as co
+)
+select count(exclusions_id) as count_exclusions,
+	   topping_name
+from table1 as t1
+left join pizza_toppings as pt
+ON pt.topping_id = t1.exclusions_id
+group by 2
+order by 1 desc
+`````
+
+
+5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders 
+table and add a 2x in front of any relevant ingredients
+for example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
+
+(customer_orders tablosundan her pizza siparişi için alfabetik olarak sıralanmış 
+virgülle ayrılmış bir malzeme listesi oluşturun ve ilgili malzemelerin önüne 2x ekleyin
+Örneğin: "Et Sevenler: 2xPastırma, Sığır eti, ... , Salam")
+````sql
+with table1 as 
+(
+select customer_id,
+	   order_id,
+	   pizza_id,
+	   unnest(string_to_array(exclusions, ', '))::numeric as exclusions_id,
+	   unnest(string_to_array(extras, ', '))::numeric as extras_id
+from customer_orders as co
+),
+table2 as 
+(
+	with table22 as
+	(
+	select pizza_id ,
+		   unnest(string_to_array(toppings,', ')) as topping_id
+	from pizza_recipes as pr
+	)
+	select t22.topping_id,
+		   pt.topping_name,
+		   pizza_id
+	from table22 as t22
+	left join pizza_toppings as pt
+	ON pt.topping_id = t22.topping_id::numeric
+)
+select DISTINCT
+  t1.order_id,
+  CASE
+    WHEN t1.exclusions_id = t2.topping_id::numeric THEN 'Meatlovers - exc '||t1.exclusions_id
+    WHEN t1.extras_id = t2.topping_id::numeric THEN 'Meatlover - ext 2x '||t1.extras_id
+	else 'non exc or ext'
+  END AS topping_segment
+from table1 as t1
+left join table2 as t2
+ON t1.pizza_id = t2.pizza_id
+where t1.pizza_id = 1
+order by order_id
+`````
