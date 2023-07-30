@@ -546,7 +546,7 @@ order by customer_id
 `````
 
 5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner 
-is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
+is paid $0.30 per kilometre traveled how much money does Pizza Runner have left over after these deliveries?
 
 (Eğer Et Severler için pizza 12$ ve Vejetaryen için 10$ sabit fiyatlıysa ve her bir koşucuya kat edilen kilometre 
 başına 0,30$ ödeniyorsa - Pizza Runner'ın bu teslimatlardan sonra ne kadar parası kalır?)*/
