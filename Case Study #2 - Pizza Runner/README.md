@@ -1,6 +1,6 @@
 # :heavy_check_mark: Case Study #2 Pizza Runner
 
-## CLEANED DATA (customer_orders)
+## CLEANED DATA - (customer_orders)
 
 ````sql
 --CLEANED DATA (customer_orders)
@@ -70,20 +70,127 @@ alter table runner_orders_clean rename to runner_orders
 ## SOLUTIONS
 ## A. Pizza Metrics
 
-1 How many pizzas were ordered?
+1. How many pizzas were ordered?
 
 (Kaç pizza sipariş edildi?)
-
 ````sql
 select count(order_id) as ordered_pizza 
 from customer_orders
 `````
-2 How many unique customer orders were made?
+2. How many unique customer orders were made?
 
 (Kaç adet benzersiz müşteri siparişi verildi)?
-
-
 ````sql
 select count(distinct order_id) as unique_order 
 from customer_orders
 `````
+
+3. How many successful orders were delivered by each runner?
+
+(Her bir koşucu tarafından kaç başarılı sipariş teslim edildi?)
+````sql
+select
+	runner_id,
+count(distinct co.order_id) as count_order
+from customer_orders as co
+left join runner_orders as ro
+ON ro.order_id = co.order_id
+where ro.cancellation is null
+group by 1
+`````
+
+4. How many of each type of pizza was delivered?
+
+(Her pizza türünden kaç tane teslim edildi?)
+````sql
+select
+	pizza_id,
+count(co.order_id) as count_order
+from customer_orders as co
+left join runner_orders as ro
+ON ro.order_id = co.order_id
+where ro.cancellation is null
+group by 1
+`````
+
+
+5. How many Vegetarian and Meatlovers were ordered by each customer?
+
+(Her bir müşteri kaç Vejetaryen ve Meatlovers sipariş etti?)
+````sql
+select pizza_name,
+	   customer_id,
+	   count(pa.pizza_id) as count_pizza
+from customer_orders as co
+left join pizza_names as pa
+ON pa.pizza_id = co.pizza_id
+group by 1,2
+`````
+
+6. What was the maximum number of pizzas delivered in a single order?
+
+(Tek bir siparişte teslim edilen maksimum pizza sayısı ne kadardı?)
+````sql
+with table1 as 
+(
+select co.order_id,
+       count(co.order_id) as order_count
+from customer_orders co
+left join runner_orders as ro
+ON co.order_id = ro.order_id
+where cancellation is null
+group by 1
+order by order_count desc
+)
+select max(order_count)
+from table1
+`````
+
+7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+
+(Her bir müşteri için, teslim edilen pizzaların kaç tanesinde en az 1 değişiklik yapıldı ve kaç tanesinde değişiklik yapılmadı?)
+````sql
+select co.customer_id,
+	   count(case when co.exclusions is not null or co.extras is not null then 'change' end) as change,
+	   count(case when co.exclusions is null and co.extras is null then 'not change' end) as not_change
+from customer_orders as co
+left join runner_orders as ro
+ON ro.order_id = co.order_id
+where cancellation is null
+group by 1
+`````
+
+8. How many pizzas were delivered that had both exclusions and extras?
+
+(Hem istisnaları hem de ekstraları olan kaç pizza teslim edildi?)
+````sql
+select
+	count(case when co.exclusions is not null and co.extras is not null then 'both' end) as both_change
+from customer_orders as co
+left join runner_orders as ro
+ON ro.order_id = co.order_id
+where cancellation is null 
+`````
+
+9. What was the total volume of pizzas ordered for each hour of the day?
+
+(Günün her saati için sipariş edilen pizzaların toplam hacmi ne kadardı?)
+````sql
+select to_char(co.order_time, 'hh24') as hour_of_day,
+	   count(co.order_id) as order_count
+from customer_orders as co
+group by 1
+order by 2 desc
+`````
+
+10. What was the volume of orders for each day of the week?
+
+(Haftanın her günü için sipariş hacmi ne kadardı?)
+````sql
+select to_char(co.order_time, 'day') as day_of_week,
+	   count(co.order_id) as order_count
+from customer_orders as co
+group by 1
+order by 2 desc
+`````
+
