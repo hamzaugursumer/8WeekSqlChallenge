@@ -424,7 +424,7 @@ order by order_id
 
 ## D. Pricing and Ratings
 
-1.If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money 
+1. If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money 
 has Pizza Runner made so far if there are no delivery fees?
 
 (Eğer bir Et Severler pizzası 12$ ve Vejetaryen 10$ ise ve değişiklik için ücret alınmıyorsa - 
@@ -453,7 +453,7 @@ from meatlovers as m
 cross join vegetarian as v
 `````
 
-2.What if there was an additional $1 charge for any pizza extras?
+2. What if there was an additional $1 charge for any pizza extras?
 Add cheese is $1 extra
 
 (Herhangi bir pizza ekstrası için 1 dolar ek ücret alınsa nasıl olur?
@@ -480,7 +480,7 @@ select concat('$', topping_revenue + pizza_revenue) as total_revenue
 from t2;
 `````
 
-3.The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, 
+3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, 
 how would you design an additional table for this new dataset - generate a schema for this new table and insert 
 your own data for ratings for each successful customer order between 1 to 5.
 
@@ -506,7 +506,7 @@ VALUES ('1', '1'),
 select * from runner_rating
 `````
 
-4.Using your newly generated table - can you join all of the information together to 
+4. Using your newly generated table - can you join all of the information together to 
 form a table which has the following information for successful deliveries?
 customer_id
 order_id
@@ -545,7 +545,7 @@ group by 1,2,3,4,5,6,7,8,9
 order by customer_id
 `````
 
-5.If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner 
+5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner 
 is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
 
 (Eğer Et Severler için pizza 12$ ve Vejetaryen için 10$ sabit fiyatlıysa ve her bir koşucuya kat edilen kilometre 
