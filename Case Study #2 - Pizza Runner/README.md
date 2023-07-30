@@ -1,5 +1,5 @@
 # :heavy_check_mark: Case Study #2 Pizza Runner
-
+![Case Study 2 Image](https://8weeksqlchallenge.com/images/case-study-designs/2.png)
 ## CLEANED DATA - (customer_orders)
 
 ````sql
