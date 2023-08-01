@@ -293,3 +293,72 @@ Aylık ödemeler her zaman herhangi bir aylık ücretli planın orijinal başlan
 temel planlardan aylık veya profesyonel planlara yükseltmeler, o ay içinde ödenen mevcut tutar kadar azaltılır ve hemen başlar,
 Pro aylıktan pro yıllığa yükseltmeler mevcut fatura döneminin sonunda ödenir ve ayrıca ay döneminin sonunda başlar,
 bir müşteri bir kez churn olursa artık ödeme yapmayacaktır.
+````sql
+with RECURSIVE table1 as 
+	(
+select customer_id,
+	   p.plan_id,
+	   start_date,
+	   plan_name,
+	   price,
+	   lead(start_date,1) over (partition by customer_id order by start_date, sub.plan_id) as cutoff_date
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where plan_name not in ('trial', 'churn')
+and start_date between '2020-01-01' and '2020-12-31'
+	),
+table2 as 
+	(
+select customer_id,
+	   plan_id,
+	   start_date,
+	   plan_name,
+	   coalesce (cutoff_date, '2020-12-31') as cutoff_date,
+	   price
+from table1
+	),
+table3 as 
+	(
+select customer_id,
+	   plan_id,
+	   plan_name,
+	   start_date,
+	   cutoff_date,
+	   price
+from table2 
+		
+UNION ALL	
+
+select customer_id,
+	   plan_id,
+	   plan_name,
+	   (start_date + interval '1 month')::Date as start_date,
+	   cutoff_date,
+	   price
+from table3
+where cutoff_date > (start_date + interval '1 month')::Date
+and plan_name != 'pro annual'
+	),
+table4 as 
+	(
+select *,
+	   lag(plan_id, 1) over (partition by customer_id order by start_date) as last_payment_date,
+	   lag(price, 1) over (partition by customer_id order by start_date) as last_price_num,
+	   rank() over (partition by customer_id order by start_date) as order_price
+from table3
+order by customer_id,
+		 start_date
+	)
+select customer_id, 
+	   plan_id,
+	   plan_name,
+	   start_date as payment_date,
+	   CASE 
+	   		WHEN plan_id in (2,3) and last_payment_date = 1 then price - last_price_num
+	   ELSE price
+	   END 
+	   as price,
+	   order_price
+from table4
+````
