@@ -8,11 +8,11 @@ Hello there! Welcome to this repository. This repo contains works, examples, and
 
 ![img](https://8weeksqlchallenge.com/images/8-week-sql-challenge.png)
 
-I showcase my SQL skills in these 8 weekly SQL cases created by Danny Ma. This repository contains solutions for the first case. I created it in Turkish because there may be people who want to use and benefit from the resource.
+:rocket:Hello there! In this repository, I proudly present 8 weekly SQL cases crafted by Danny Ma, where I showcase my SQL skills. Each case is thoughtfully designed to challenge your abilities and provide ample opportunities for practice.
 
-* Solutions were made with PostgreSQL.
-* The repository contains ERD, tables and schema.
-* There are introduction and problem definition sections for you to do the questions.
+:rocket:All solutions have been implemented using PostgreSQL. The repository includes an ERD, tables, and schema, alongside an introduction and problem definition sections to guide you through each question.
 
-* Don't forget to give a ⭐.
+:rocket:I chose to create the content in Turkish to make it accessible and beneficial for Turkish speakers who wish to enhance their SQL proficiency.
+
+:rocket:I hope you find this repository valuable and that it helps you in honing your SQL expertise. Don't forget to give it a ⭐️ if you enjoy it
 
