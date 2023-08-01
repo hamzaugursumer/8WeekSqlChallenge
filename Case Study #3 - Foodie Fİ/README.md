@@ -579,7 +579,6 @@ from monthly_growth
 
 
 ## 3. What are some key customer journeys or experiences that you would analyse further to improve customer retention?
-
 (Müşteriyi elde tutmayı iyileştirmek için daha fazla analiz edeceğiniz bazı önemli müşteri yolculukları veya deneyimleri nelerdir?)
 
 1- Müşteri ile ilk etkileşime geçme ve tanışma deneyiminin nasıl ve ne aracılığıyla olduğunu öğrenmek.
