@@ -461,3 +461,121 @@ select  plan_name,
         round(((received_price - LAG(received_price) OVER (ORDER BY month)) / LAG(received_price) OVER (ORDER BY month))*100,2) AS growth_ratio
 from monthly_growth
 ````
+
+2. What key metrics would you recommend Foodie-Fi management to track over time to assess performance of their overall business?
+
+(Foodie-Fi yönetimine, genel işlerinin performansını değerlendirmek için zaman içinde hangi temel ölçütleri takip etmelerini önerirsiniz?)
+
+* MONTHLY RECURRING REVENUE (MRR):
+	
+	Aylık Yinelenen Gelir (MRR), abonelik tabanlı bir iş modeline sahip şirketler için önemli bir işletme metriğidir. 
+	MRR, işletmelerin her ay almayı bekledikleri geliri gösterir ve bu nedenle öngörülebilir bir gelirdir. 
+	Müşterilerinizin hizmetinizi ne kadar kullandığına ve her ay ödedikleri fiyata göre hesaplanır.
+	
+	MRR, genellikle iki şekilde hesaplanabilir:
+	
+	1- Müşteri Başına Gelirden: 
+	Aylık yinelenen geliri hesaplamanın en kolay yöntemi, her müşteri için aylık yinelenen geliri belirlemektir. 
+	İlk olarak, her müşterinin aylık gelirini hesaplıyoruz. Ardından müşterilerden elde ettiğimiz tüm gelirlerin toplamını buluyoruz2.
+	
+	2- Kişi Başına Ortalama Gelirden (ARPU) x toplam müşteri sayısı: 
+	Örneğin, ARPU’nuz 50 ve 300 aylık müşteriniz varsa, MRR′niz 50 x 300 = 15.000 $ olacaktır.
+	
+	
+* CHURN RATE:
+	
+	Yıpranma oranı olarak da bilinen kayıp oranı, müşterilerin belirli bir süre içinde bir şirketle iş yapmayı bırakma oranıdır. 
+	En yaygın olarak, belirli bir süre içinde aboneliklerini sonlandıran hizmet abonelerinin yüzdesi olarak ifade edilir. 
+	Aynı zamanda çalışanların belirli bir süre içinde işlerinden ayrılma oranıdır. 
+	Bir şirketin müşteri portföyünü genişletebilmesi için büyüme oranının (yeni müşteri sayısıyla ölçülür) kayıp oranını aşması gerekir.
+
+	İşten ayrılma oranını hesaplamak için aşağıdaki adımları takip edebilirsiniz2:
+
+    1-Bir zaman aralığı belirleyin: aylık, yıllık veya üç aylık.
+    2-Dönemin başında sahip olduğunuz müşteri sayısını belirleyin.
+    3-Dönemin sonuna kadar ayrılan müşteri sayısını belirleyin.
+    4-Kaybedilen müşteri sayısını, kayıptan önce sahip olduğunuz müşteri sayısına bölün.
+    5-Bu sayıyı 100 ile çarpın.
+	
+	Örneğin; 
+	işletmenizin ay başında 250 müşterisi varsa ve ay sonunda 10 müşteri kaybettiyseniz, 10'u 250'ye bölersiniz. 
+	Cevap 0,04'tür. Daha sonra 0,04'ü 100 ile çarparsınız ve aylık %4 kayıp oranı elde edersiniz.
+	
+	
+	
+* CUSTOMER ACQUISITION COST (CAC):
+ 	
+	Müşteri Edinme Maliyeti (CAC), bir şirketin yeni bir müşteri edinme sürecinde harcanacak olan toplam maliyetin hesaplanmasıdır. 
+	Bu tahminlerin içerisinde; pazarlamacıların maaşı, reklam maliyetleri, satış elemanlarının maliyeti hesaplanır 
+	ve kazanılan müşteri sayısına bölünerek sonuç elde edilir.
+
+	CAC’nin hesaplanması oldukça basittir;
+	Bir işletmenin belirli bir dönemdeki toplam satış ve pazarlama maliyetinin o dönemde kazanılan müşteri sayısına bölünmesiyle elde edilir. 
+	CAC formülü şu şekildedir: CAC = (Satış Maliyeti + Pazarlama Maliyeti) / Yeni Müşteri Sayısı.
+
+	CAC, işletmeler için önemli bir metriktir çünkü müşterilerini iyi tanımalı ve müşteri edinme maliyeti optimizasyonu stratejileri geliştirmelidir. 
+	CAC maliyetlerinin düşürmeye başladığınızda ise reklam maliyetleriniz düşecektir. Buna bağlı olarak da yatırım gelirleriniz artar. 
+	Sonuç olarak şirket karlılık oranı artacak ve daha fazla kazanç elde etmek mümkün olacaktır.
+	
+	
+	
+* CUSTOMER LIFETIME VALUE (CLV):
+
+	Müşteri Yaşam Boyu Değeri (CLV), bir işletmenin müşterilerinden, kendilerinin veya kullanıcı hesaplarının müşteri olarak kaldığı sürece 
+	elde edeceği toplam gelirin bir ölçüsüdür. CLV’yi ölçerken, müşteri tarafından elde edilen toplam ortalama gelire ve toplam ortalama kâra bakmak gerekir.
+
+	CLV’yi hesaplamak için, geçmişteki müşteri yaşam boyu değerini (Historical CLV) kullanabilirsiniz. 
+	Historical CLV, bir müşterinin geçmişteki tüm satın alımlarından elde edilen brüt karın toplamıdır. 
+	Bunu hesaplamak için, son işlem (N) yaptığı tarihe kadar tüm brüt kar değerlerini toplamanız gerekir. 
+	CLV’yi net kar üzerinden ölçerek, belirli bir müşterinin gerçek karını elde edebilirsiniz.
+
+	CLV, işletmeler için önemli bir metriktir çünkü müşterilerini iyi tanımalı ve müşteri edinme maliyeti optimizasyonu stratejileri geliştirmelidir. 
+	CLV maliyetlerinin düşürmeye başladığınızda ise reklam maliyetleriniz düşecektir. Buna bağlı olarak da yatırım gelirleriniz artar. 
+	Sonuç olarak şirket karlılık oranı artacak ve daha fazla kazanç elde etmek mümkün olacaktır.
+	
+	Basit bir CLV formülü şu şekildedir: CLV = Müşteri Değeri x Ortalama Müşteri Ömrü.
+
+
+
+* PLAN CONVERSION RATES:
+
+	Plan conversion rate, bir işletmenin belirli bir planına abone olan müşterilerin yüzdesini ifade eder. 
+	Örneğin, bir işletmenin 100 müşterisi varsa ve bunların 20’si “Pro” planına abone olmuşsa, “Pro” planının dönüşüm oranı %20’dir.
+
+	Plan dönüşüm oranını hesaplamak için, belirli bir zaman aralığında belirli bir plana abone olan müşteri sayısını, toplam müşteri sayısına bölerek bulabilirsiniz. 
+	Örneğin, bir ay boyunca 10 müşteri “Pro” planına abone olmuşsa ve toplam müşteri sayısı 50 ise, “Pro” planının aylık dönüşüm oranı %20’dir (10/50 = 0.2).
+
+	Plan dönüşüm oranı, işletmeler için önemli bir metriktir çünkü hangi planların daha popüler olduğunu ve hangilerinin daha fazla müşteri çektiğini gösterir. 
+	Bu metrik, işletmelerin pazarlama stratejilerini geliştirmelerine ve daha fazla müşteri kazanmalarına yardımcı olabilir.
+
+	
+	
+* ENGAGEMENT METRICS:
+	
+	Etkileşim ölçümleri, kullanıcıların web siteniz, sosyal medya profilleriniz, uygulamanız, portalınız, yazılımınız veya içeriğiniz gibi medya 
+	varlıklarınızla nasıl etkileşimde bulunduğunun göstergeleridir. 
+	Bu metrikler, kullanıcıların çevrimiçi yayınladığınız içerikle nasıl ve ne kadar etkileşime girdiğini ölçer.
+	
+	Takip edilip analiz edilebilecek birçok etkileşim metriği vardır ve bunlar genellikle çeşitli isimlerle anılır. 
+	Bazı yaygın etkileşim metrikleri arasında sayfa görüntülemeleri, oturum başına sayfa sayısı, ortalama oturum süresi, tekil ziyaretçiler, 
+	hemen çıkma oranı, sayfada ortalama kalma süresi, sitede kalma süresi, trafik kaynağı, etkinlik takibi, dönüşüm oranı, kaydırma derinliği, 
+	bekleme süresi ve terk etme oranı yer almaktadır.
+	
+
+* NET PROMOTER SCORE (NPS):
+
+	Net Promoter Score (NPS), bir işletmenin müşterilerinin işletmeyi tavsiye etme olasılığını ölçen bir müşteri sadakati metriğidir. 
+	NPS, müşterilerinize “Şirketimizi bir arkadaşınıza tavsiye etme ihtimaline 0 ila 10 arasında bir puan verecek olsaydınız, kaç puan verirdiniz?” 
+	gibi bir soru sorarak hesaplanır.
+
+	Müşterilerinizin verdiği yanıtlara göre, onları üç gruba ayırabilirsiniz:
+
+	1- Destekçiler: 9 veya 10 puan veren müşteriler. Bu grup, işletmenizi başkalarına tavsiye etme olasılığı en yüksek olan müşterilerdir.
+	2- Pasifler: 7 veya 8 puan veren müşteriler. Bu grup, işletmenizle ilgili nötr olan müşterilerdir.
+	3- Kötüleyenler: 0 ile 6 arasında puan veren müşteriler. Bu grup, işletmenizi başkalarına tavsiye etme olasılığı en düşük olan müşterilerdir.
+	
+	NPS’yi hesaplamak için aşağıdaki formülü kullanabilirsiniz: NPS = (Destekçilerin Sayısı - Kötüleyenlerin Sayısı) / (Yanıtlayan Sayısı) x 100
+	Bu formül ile elde edilen NPS değeri, -100 ile +100 arasında bir skorla gösterilir ve işletmenizin müşteri sadakatini ölçer.
+
+
+
