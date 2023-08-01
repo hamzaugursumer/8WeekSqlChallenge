@@ -464,7 +464,7 @@ from monthly_growth
 
 ## 2. What key metrics would you recommend Foodie-Fi management to track over time to assess performance of their overall business?
 
-(Foodie-Fi yönetimine, genel işlerinin performansını değerlendirmek için zaman içinde hangi temel ölçütleri takip etmelerini önerirsiniz?)
+# (Foodie-Fi yönetimine, genel işlerinin performansını değerlendirmek için zaman içinde hangi temel ölçütleri takip etmelerini önerirsiniz?)
 
 * MONTHLY RECURRING REVENUE (MRR):
 	
@@ -579,7 +579,8 @@ from monthly_growth
 
 
 ## 3. What are some key customer journeys or experiences that you would analyse further to improve customer retention?
-(Müşteriyi elde tutmayı iyileştirmek için daha fazla analiz edeceğiniz bazı önemli müşteri yolculukları veya deneyimleri nelerdir?)
+
+# (Müşteriyi elde tutmayı iyileştirmek için daha fazla analiz edeceğiniz bazı önemli müşteri yolculukları veya deneyimleri nelerdir?)
 
 1- Müşteri ile ilk etkileşime geçme ve tanışma deneyiminin nasıl ve ne aracılığıyla olduğunu öğrenmek.
 	
