@@ -369,3 +369,95 @@ select customer_id,
 	   order_price
 from table4
 ````
+
+## :pushpin: D. Outside The Box Questions
+
+1. How would you calculate the rate of growth for Foodie-Fi?
+
+(Foodie-Fi için büyüme oranını nasıl hesaplarsınız?)
+
+````sql
+-- growth ratio for pro monthly : 
+with monthly_growth_pro_monthly as
+(
+select  
+    plan_name,
+    to_char(start_date, 'MM') as month,
+    sum(price) as received_price
+from subscriptions as sub
+left join plans as p on p.plan_id = sub.plan_id
+where plan_name = 'pro monthly'
+and start_date between '2020-01-01' and '2020-12-31'
+group by 1,2
+order by 2   
+)
+select  plan_name,
+        month,
+        received_price,
+        round(((received_price - LAG(received_price) OVER (ORDER BY month)) / LAG(received_price) OVER (ORDER BY month))*100,2) AS growth_ratio
+from monthly_growth_pro_monthly
+
+
+-- growth ratio for basic monthly :
+with monthly_growth_basic_monthly as
+(
+select  
+    plan_name,
+    to_char(start_date, 'MM') as month,
+    sum(price) as received_price
+from subscriptions as sub
+left join plans as p on p.plan_id = sub.plan_id
+where plan_name = 'basic monthly'
+and start_date between '2020-01-01' and '2020-12-31'
+group by 1,2
+order by 2   
+)
+select  plan_name,
+        month,
+        received_price,
+        round(((received_price - LAG(received_price) OVER (ORDER BY month)) / LAG(received_price) OVER (ORDER BY month))*100,2) AS growth_ratio
+from monthly_growth_basic_monthly
+
+
+-- growth ratio for pro annual:
+with monthly_growth_pro_annual as
+(
+select  
+    plan_name,
+    to_char(start_date, 'MM') as month,
+    sum(price) as received_price
+from subscriptions as sub
+left join plans as p on p.plan_id = sub.plan_id
+where plan_name = 'pro annual'
+and start_date between '2020-01-01' and '2020-12-31'
+group by 1,2
+order by 2   
+)
+select  plan_name,
+        month,
+        received_price,
+        round(((received_price - LAG(received_price) OVER (ORDER BY month)) / LAG(received_price) OVER (ORDER BY month))*100,2) AS growth_ratio
+from monthly_growth_pro_annual
+
+
+
+-- growth ratio for all plans:
+with monthly_growth as
+(
+select  
+    plan_name,
+    to_char(start_date, 'MM') as month,
+    sum(price) as received_price
+from subscriptions as sub
+left join plans as p on p.plan_id = sub.plan_id
+where plan_name not in ('trial','churn')
+and start_date between '2020-01-01' and '2020-12-31'
+group by 1,2
+order by 2   
+)
+select  plan_name,
+        month,
+        received_price,
+        round(((received_price - LAG(received_price) OVER (ORDER BY month)) / LAG(received_price) OVER (ORDER BY month))*100,2) AS growth_ratio
+from monthly_growth
+````
