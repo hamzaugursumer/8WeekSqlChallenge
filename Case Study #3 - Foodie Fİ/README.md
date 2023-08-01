@@ -6,7 +6,7 @@
 1. Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
 Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!
 
-1. Abonelikler tablosundaki örnekte verilen 8 örnek müşteriyi temel alarak, her bir müşterinin ilk katılım yolculuğu hakkında kısa bir açıklama yazın.
+Abonelikler tablosundaki örnekte verilen 8 örnek müşteriyi temel alarak, her bir müşterinin ilk katılım yolculuğu hakkında kısa bir açıklama yazın.
 Mümkün olduğunca kısa tutmaya çalışın - açıklamalarınızı biraz daha kolaylaştırmak için bir tür birleştirme yapmak da isteyebilirsiniz!)
 ````sql
 select customer_id,
