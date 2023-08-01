@@ -1,0 +1,22 @@
+GİRİŞ
+
+Finans sektöründe Neo-Bankalar adı verilen yeni bir inovasyon var: fiziksel şubeleri olmayan, sadece dijital bankalar.
+Danny, bu yeni çağ bankaları, kripto para ve veri dünyası arasında bir tür kesişme olması gerektiğini düşündü... böylece yeni bir girişim başlatmaya karar verdi - Veri Bankası!
+Data Bank tıpkı diğer dijital bankalar gibi çalışıyor - ancak sadece bankacılık faaliyetleri için değil, aynı zamanda dünyanın en güvenli dağıtılmış veri depolama platformuna da sahipler!
+Müşterilere, hesaplarında ne kadar para olduğu ile doğrudan bağlantılı olan bulut veri depolama limitleri tahsis edilir. Bu iş modeliyle birlikte gelen birkaç ilginç uyarı var ve Data Bank ekibinin yardımınıza ihtiyacı var!
+Data Bank'in yönetim ekibi toplam müşteri tabanını artırmak istiyor ama aynı zamanda müşterilerinin ne kadar veri depolamaya ihtiyaç duyacağını takip etmek için yardıma ihtiyaç duyuyor.
+Bu vaka çalışması tamamen metriklerin hesaplanması, büyüme ve işletmenin gelecekteki gelişmelerini daha iyi tahmin etmek ve planlamak için verilerini akıllı bir şekilde analiz etmesine yardımcı olmakla ilgilidir!
+
+******************************************************************************************************************************************************************************************
+Mevcut Veriler
+
+Tablo 1. Bölgeler
+Tıpkı popüler kripto para platformları gibi Data Bank da dünya genelinde hem paranın hem de verilerin depolandığı bir düğüm ağından yönetilmektedir. Geleneksel bankacılık anlamında, bu düğümleri dünyanın dört bir yanında bulunan banka şubeleri veya mağazalar olarak düşünebilirsiniz.
+Bu bölgeler tablosu region_id ve ilgili region_name değerlerini içerir.
+
+Tablo 2: Müşteri Düğümleri
+Müşteriler, bölgelerine göre düğümler arasında rastgele dağıtılır - bu aynı zamanda hem nakit hem de verilerinin tam olarak hangi düğümde bulunduğunu belirtir.
+Bu rastgele dağılım, bilgisayar korsanlarının Data Bank'ın sistemine girme ve müşterinin parasını ve verilerini çalma riskini azaltmak için sık sık değişir!
+
+Tablo 3: Müşteri İşlemleri
+Bu tablo, Data Bank banka kartı kullanılarak yapılan tüm müşteri para yatırma, çekme ve satın alma işlemlerini saklar.
