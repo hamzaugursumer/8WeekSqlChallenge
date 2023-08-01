@@ -372,7 +372,7 @@ from table4
 
 ## :pushpin: D. Outside The Box Questions
 
-## 1. How would you calculate the rate of growth for Foodie-Fi?
+:unlock: ## 1. How would you calculate the rate of growth for Foodie-Fi?
 
 (Foodie-Fi için büyüme oranını nasıl hesaplarsınız?)
 
@@ -462,7 +462,7 @@ select  plan_name,
 from monthly_growth
 ````
 
-## 2. What key metrics would you recommend Foodie-Fi management to track over time to assess performance of their overall business?
+:unlock: ## 2. What key metrics would you recommend Foodie-Fi management to track over time to assess performance of their overall business?
 
 ### (Foodie-Fi yönetimine, genel işlerinin performansını değerlendirmek için zaman içinde hangi temel ölçütleri takip etmelerini önerirsiniz?)
 
@@ -578,7 +578,7 @@ from monthly_growth
 	Bu formül ile elde edilen NPS değeri, -100 ile +100 arasında bir skorla gösterilir ve işletmenizin müşteri sadakatini ölçer.
 
 
-## 3. What are some key customer journeys or experiences that you would analyse further to improve customer retention?
+:unlock: ## 3. What are some key customer journeys or experiences that you would analyse further to improve customer retention?
 
 ### (Müşteriyi elde tutmayı iyileştirmek için daha fazla analiz edeceğiniz bazı önemli müşteri yolculukları veya deneyimleri nelerdir?)
 
@@ -594,7 +594,7 @@ farklı içgörüler oluşturulması ve müşteri eğilimine göre aksiyon almak
 alınması çok önemlidir. Bu bilgiler ışığında kayıp edilmek üzere olan müşteriler veya diğer segmentler farklı aksiyon ve kampanyalarla
 elde tutulabilir ve daha fazla getiri sağlayabilir.
 
-## 4. If the Foodie-Fi team were to create an exit survey shown to customers who wish to cancel their subscription, what questions would you include in the survey?
+:unlock: ## 4. If the Foodie-Fi team were to create an exit survey shown to customers who wish to cancel their subscription, what questions would you include in the survey?
 
 ### (Foodie-Fi ekibi, aboneliklerini iptal etmek isteyen müşterilere gösterilen bir çıkış anketi oluşturacak olsaydı, ankete hangi soruları dahil ederdiniz?)
 
@@ -608,7 +608,7 @@ elde tutulabilir ve daha fazla getiri sağlayabilir.
 
 5-Foodie Fi kullanımınıızı 1-5 arasında puanlasanız kaç verirsiniz ?
 
-## 5. What business levers could the Foodie-Fi team use to reduce the customer churn rate? How would you validate the effectiveness of your ideas?
+:unlock: ## 5. What business levers could the Foodie-Fi team use to reduce the customer churn rate? How would you validate the effectiveness of your ideas?
 ### (Foodie-Fi ekibi müşteri kayıp oranını azaltmak için hangi iş kollarını kullanabilir? Fikirlerinizin etkinliğini nasıl doğrularsınız?)
 
 
