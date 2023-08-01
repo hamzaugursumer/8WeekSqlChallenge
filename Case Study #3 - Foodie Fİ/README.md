@@ -48,6 +48,240 @@ Aynı zamanda, mevcut müşterilere de sadakat programları veya plan yükseltme
 select count(distinct customer_id) as customer_count
 from subscriptions 
  `````
+2. What is the monthly distribution of trial plan start_date values for our dataset - use the start of the month as the group by value
 
+(Veri kümemiz için deneme planı başlangıç_tarihi değerlerinin aylık dağılımı nedir - group by değeri olarak ayın başlangıcını kullanın)
+````sql
+select to_char(start_date,'Month') as start_month,
+	   count(distinct customer_id) as count_customer
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where p.plan_name = 'trial'
+group by 1
+order by 2 desc
+ `````
+3. What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name
 
+(Veri setimiz için 2020 yılından sonra hangi plan başlangıç_tarihi değerleri ortaya çıkıyor? Her plan_adı için olay sayısına göre dağılımı gösterin)
+````sql
+select plan_name,
+	   count(distinct customer_id) as customer_count
+from subscriptions as sub
+left join plans as p ON
+p.plan_id = sub.plan_id
+where start_date >= '2021-01-01'
+group by 1
+order by 2 desc
+`````
+
+4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
+
+(Müşteri sayısı ve kayıp müşterilerin 1 ondalık basamağa yuvarlanmış yüzdesi nedir?)
+````sql
+with table1 as 
+(
+select count(distinct customer_id) as total_customer_count,
+	   (select count(distinct customer_id) as churn_customer_count
+	    from subscriptions as sub 
+		left join plans as p 
+		ON sub.plan_id = p.plan_id 
+		where p.plan_id = 4 )
+from subscriptions as sub
+left join plans as p ON
+p.plan_id = sub.plan_id
+)
+select total_customer_count,
+	   churn_customer_count,
+	   round(100*churn_customer_count*1.0/total_customer_count*1.0,1) as churn_percentage
+from table1
+`````
+
+5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
+
+(Kaç müşteri ilk ücretsiz denemeden hemen sonra vazgeçti - bu en yakın tam sayıya yuvarlanmış yüzde kaçtır?)
+````sql
+with ranking as 
+(
+select s.customer_id,  
+       p.plan_id,
+	   plan_name,
+       row_number() over (partition by s.customer_id order by p.plan_id) as plan_rank 
+from subscriptions as s
+left join plans as p
+ON s.plan_id = p.plan_id
+) 
+select count(customer_id) as churn_count,
+       round(100 * count(customer_id) / (select count(distinct customer_id) from subscriptions), 0) as churn_percentage
+from ranking
+where plan_id = 4 
+and plan_rank = 2
+`````
+
+6. What is the number and percentage of customer plans after their initial free trial?
+
+(İlk ücretsiz denemelerinden sonra müşteri planlarının sayısı ve yüzdesi nedir?)
+````sql
+with table1 as 
+(
+select customer_id,
+	   plan_name,
+	   p.plan_id,
+	   rank() over (partition by customer_id order by start_date) as rank
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+)
+select 
+	plan_name,
+	count(distinct customer_id) as customer_count,
+	ROUND((count(distinct customer_id)*1.0 /
+	(select count(distinct customer_id) from subscriptions as sub left join plans as p ON p.plan_id = sub.plan_id where p.plan_name != 'churn')*1.0)*100,1)
+    as customer_percentage
+from table1 
+where rank = 2
+group by 1
+order by customer_count desc
+`````
+
+7. What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?
+
+(2020-12-31'de tüm 5 plan_adı değerinin müşteri sayısı ve yüzde dağılımı nedir?)
+````sql
+with table1 as 
+(
+select distinct customer_id,
+	   p.plan_id,
+	   start_date,
+	   plan_name,
+	   rank() over (partition by customer_id order by start_date desc)
+from subscriptions as sub
+left join plans as p 
+ON p.plan_id = sub.plan_id
+where start_date <= '2020-12-31'
+)
+select plan_name,
+	   count(customer_id) as count_customer,
+	   ROUND((count(customer_id)*1.0 /
+	   (select count(distinct customer_id) from subscriptions as sub left join plans as p ON p.plan_id = sub.plan_id where p.plan_name != 'churn')*1.0)*100,1)
+    as customer_percentage
+from table1 as t1
+where rank = 1
+group by 1
+order by 2 desc
+`````
+
+8. How many customers have upgraded to an annual plan in 2020?
+
+(2020'de kaç müşteri yıllık plana geçiş yaptı?)
+````sql
+with table1 as 
+(
+select distinct customer_id,
+	   p.plan_id,
+	   start_date,
+	   plan_name
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where start_date between '2020-01-01' and '2020-12-30'
+)
+select count(distinct customer_id) as customer_count
+from table1 
+where plan_name = 'pro annual'
+`````
+
+9. How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?
+
+(Bir müşterinin Foodie-Fi'ye katıldığı günden itibaren yıllık plana geçmesi ortalama kaç gün sürüyor?)
+````sql
+with table_trial as
+	(
+select customer_id,
+	   start_date as trial_start_date
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where plan_name = 'trial'
+	),
+table_pro_annual as 
+	(
+select customer_id,
+	   start_date as pro_annual_start_date
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where plan_name = 'pro annual'
+	)
+select ROUND(AVG(pro_annual_start_date - trial_start_date),0) as avg_plan_time
+from table_trial as tt
+inner join table_pro_annual as tpa
+ON tpa.customer_id = tt.customer_id
+`````
+10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+
+(Bu ortalama değeri 30 günlük dönemlere ayırabilir misiniz (yani 0-30 gün, 31-60 gün vb.))
+````sql
+with table_trial as
+	(
+select customer_id,
+	   start_date as trial_start_date
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where plan_name = 'trial'
+	),
+table_pro_annual as 
+	(
+select customer_id,
+	   start_date as pro_annual_start_date
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where plan_name = 'pro annual'
+	),
+bins as 
+(
+select 
+	width_bucket(table_pro_annual.pro_annual_start_date-table_trial.trial_start_date, 0, 365, 12) as wb
+from table_trial 
+inner join table_pro_annual
+ON table_trial.customer_id = table_pro_annual.customer_id
+)
+select wb,
+	   count(*) as num_customers
+from bins 
+group by wb
+````
+
+11. How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+
+(2020'de kaç müşteri aylık profesyonel plandan aylık temel plana geçiş yaptı?)
+````sql
+with table_pro_monthly as
+	(
+select customer_id,
+	   start_date as pro_monthly_start_date
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where plan_name = 'pro monthly'
+and start_date between '2020-01-01' and '2020-12-30'
+	),
+table_basic_monthly as 
+	(
+select customer_id,
+	   start_date as basic_monthly_start_date
+from subscriptions as sub
+left join plans as p
+ON p.plan_id = sub.plan_id
+where plan_name = 'basic monthly'
+and start_date between '2020-01-01' and '2020-12-30'
+	)
+select count(*) as count_customer
+from table_pro_monthly as tpm
+inner join table_basic_monthly as tbm
+ON tpm.customer_id = tbm.customer_id
+where tpm.pro_monthly_start_date - tbm.basic_monthly_start_date < 0
+````
 
