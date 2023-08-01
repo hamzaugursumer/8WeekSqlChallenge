@@ -596,7 +596,7 @@ elde tutulabilir ve daha fazla getiri sağlayabilir.
 
 ## 4. If the Foodie-Fi team were to create an exit survey shown to customers who wish to cancel their subscription, what questions would you include in the survey?
 
-###(Foodie-Fi ekibi, aboneliklerini iptal etmek isteyen müşterilere gösterilen bir çıkış anketi oluşturacak olsaydı, ankete hangi soruları dahil ederdiniz?)
+### (Foodie-Fi ekibi, aboneliklerini iptal etmek isteyen müşterilere gösterilen bir çıkış anketi oluşturacak olsaydı, ankete hangi soruları dahil ederdiniz?)
 
 1- Abonelik iptal nedeniniz nedir ? 
 2- Abonelik iptalinizde fiyat faktörü önemli mi ?
