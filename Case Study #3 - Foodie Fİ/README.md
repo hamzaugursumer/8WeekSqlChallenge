@@ -294,12 +294,12 @@ upgrades from basic to monthly or pro plans are reduced by the current paid amou
 upgrades from pro monthly to pro annual are paid at the end of the current billing period and also starts at the end of the month period
 once a customer churns they will no longer make payments
 
-Foodie-Fi ekibi, 2020 yılı için abonelikler tablosundaki her bir müşteri tarafından ödenen tutarları içeren ve aşağıdaki gereksinimleri karşılayan yeni bir ödeme tablosu oluşturmanızı istiyor:
+(Foodie-Fi ekibi, 2020 yılı için abonelikler tablosundaki her bir müşteri tarafından ödenen tutarları içeren ve aşağıdaki gereksinimleri karşılayan yeni bir ödeme tablosu oluşturmanızı istiyor:
 
 Aylık ödemeler her zaman herhangi bir aylık ücretli planın orijinal başlangıç tarihi ile ayın aynı gününde gerçekleşir,
 temel planlardan aylık veya profesyonel planlara yükseltmeler, o ay içinde ödenen mevcut tutar kadar azaltılır ve hemen başlar,
 Pro aylıktan pro yıllığa yükseltmeler mevcut fatura döneminin sonunda ödenir ve ayrıca ay döneminin sonunda başlar,
-bir müşteri bir kez churn olursa artık ödeme yapmayacaktır.
+bir müşteri bir kez churn olursa artık ödeme yapmayacaktır.)
 ````sql
 with RECURSIVE table1 as 
 	(
