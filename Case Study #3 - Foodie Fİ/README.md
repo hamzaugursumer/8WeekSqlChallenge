@@ -372,7 +372,7 @@ from table4
 
 ## :pushpin: D. Outside The Box Questions
 
-1. How would you calculate the rate of growth for Foodie-Fi?
+## 1. How would you calculate the rate of growth for Foodie-Fi?
 
 (Foodie-Fi için büyüme oranını nasıl hesaplarsınız?)
 
