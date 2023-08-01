@@ -38,3 +38,16 @@ Aynı zamanda, mevcut müşterilere de sadakat programları veya plan yükseltme
 */
 
  `````
+
+## :pushpin: B. Data Analysis Questions
+
+1. How many customers has Foodie-Fi ever had?
+
+(Foodie-Fi'nin şimdiye kadar kaç müşterisi oldu?)
+````sql
+select count(distinct customer_id) as customer_count
+from subscriptions 
+ `````
+
+
+
