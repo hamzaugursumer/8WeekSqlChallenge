@@ -462,7 +462,7 @@ select  plan_name,
 from monthly_growth
 ````
 
-2. What key metrics would you recommend Foodie-Fi management to track over time to assess performance of their overall business?
+## 2. What key metrics would you recommend Foodie-Fi management to track over time to assess performance of their overall business?
 
 (Foodie-Fi yönetimine, genel işlerinin performansını değerlendirmek için zaman içinde hangi temel ölçütleri takip etmelerini önerirsiniz?)
 
@@ -578,4 +578,18 @@ from monthly_growth
 	Bu formül ile elde edilen NPS değeri, -100 ile +100 arasında bir skorla gösterilir ve işletmenizin müşteri sadakatini ölçer.
 
 
+## 3. What are some key customer journeys or experiences that you would analyse further to improve customer retention?
 
+(Müşteriyi elde tutmayı iyileştirmek için daha fazla analiz edeceğiniz bazı önemli müşteri yolculukları veya deneyimleri nelerdir?)
+
+1- Müşteri ile ilk etkileşime geçme ve tanışma deneyiminin nasıl ve ne aracılığıyla olduğunu öğrenmek.
+	
+2- Hangi ürünlerin veya planların en popüler olduğu ve bunların kullanım sıklıkları, kullanılan planların ve içeriklerin 
+hangi yaş grubuna, kesime, coğrafi bölgeye hitap ettiği Foodie-Fi için önemli unsurlar olabilir.
+	   
+3- Müşterilerden geri bildirim alarak süreçlerin iyileştirilmesi, müşterilerden gelen önerilere veya eleştirilere göre 
+farklı içgörüler oluşturulması ve müşteri eğilimine göre aksiyon almak sorunları ortadan kaldırmak için önemli rol oynayabilir.
+	   
+4- Müşteri kayıp analizi yaparak müşterilerin ne oranda churn oldukları ve ne kadar sürede elde tutulduğunun bilinmesi ve ona göre aksiyon
+   	   alınması çok önemlidir. Bu bilgiler ışığında kayıp edilmek üzere olan müşteriler veya diğer segmentler farklı aksiyon ve kampanyalarla
+elde tutulabilir ve daha fazla getiri sağlayabilir.
