@@ -605,7 +605,7 @@ from monthly_growth
 	3- Müşterilerden geri bildirim alarak süreçlerin iyileştirilmesi, müşterilerden gelen önerilere veya eleştirilere göre 
 	   farklı içgörüler oluşturulması ve müşteri eğilimine göre aksiyon almak sorunları ortadan kaldırmak için önemli rol oynayabilir.
 	   
-    4- Müşteri kayıp analizi yaparak müşterilerin ne oranda churn oldukları ve ne kadar sürede elde tutulduğunun bilinmesi ve ona göre aksiyon
+        4- Müşteri kayıp analizi yaparak müşterilerin ne oranda churn oldukları ve ne kadar sürede elde tutulduğunun bilinmesi ve ona göre aksiyon
    	   alınması çok önemlidir. Bu bilgiler ışığında kayıp edilmek üzere olan müşteriler veya diğer segmentler farklı aksiyon ve kampanyalarla
 	   elde tutulabilir ve daha fazla getiri sağlayabilir.
 */
