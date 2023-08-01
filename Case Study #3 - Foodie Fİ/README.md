@@ -591,7 +591,7 @@ hangi yaş grubuna, kesime, coğrafi bölgeye hitap ettiği Foodie-Fi için öne
 farklı içgörüler oluşturulması ve müşteri eğilimine göre aksiyon almak sorunları ortadan kaldırmak için önemli rol oynayabilir.
 	   
 4- Müşteri kayıp analizi yaparak müşterilerin ne oranda churn oldukları ve ne kadar sürede elde tutulduğunun bilinmesi ve ona göre aksiyon
-   	   alınması çok önemlidir. Bu bilgiler ışığında kayıp edilmek üzere olan müşteriler veya diğer segmentler farklı aksiyon ve kampanyalarla
+alınması çok önemlidir. Bu bilgiler ışığında kayıp edilmek üzere olan müşteriler veya diğer segmentler farklı aksiyon ve kampanyalarla
 elde tutulabilir ve daha fazla getiri sağlayabilir.
 
 ## 4. If the Foodie-Fi team were to create an exit survey shown to customers who wish to cancel their subscription, what questions would you include in the survey?
@@ -608,3 +608,20 @@ elde tutulabilir ve daha fazla getiri sağlayabilir.
 
 5-Foodie Fi kullanımınıızı 1-5 arasında puanlasanız kaç verirsiniz ?
 
+## 5. What business levers could the Foodie-Fi team use to reduce the customer churn rate? How would you validate the effectiveness of your ideas?
+### (Foodie-Fi ekibi müşteri kayıp oranını azaltmak için hangi iş kollarını kullanabilir? Fikirlerinizin etkinliğini nasıl doğrularsınız?)
+
+
+1- Platform içerisinde ki içerikleri iyileştirip, müşteri geri bildirimlerine göre tekrar yelpazesini güncelleyebilir.
+	
+2- Müşterilerden gelen geri bildirimlere göre içerikler güncellenebilir, ve ilgi alanlarına göre platform içerisinde
+ilgi çekici düzenlemeler ve kendi tercihlerine göre içerik algoritmaları oluşturmak yardımcı olabilir.
+	   
+3- İndirimli planlar ve esnek ödeme seçenekleri sunmak, örneğin öğrenci aboneliği gibi veya belirli ödeme dönemlerinde indirim 
+sağlamak kalıcı platform kullanımına teşvik edebilir.
+
+4- Son olarak müşterileri kaybetmemek için segmentasyona göre farklı kampanyalar ve indirimler, RFM analizi yapılıp cıkan
+puan sonucunda kullanıcılara farklı aksiyonlar almak kullanımı teşvik edebilir.
+	
+5- Foodie Fi müşteriyi elde tutma etkisini ölçebilmek için bir A/B testi gerçekleştirilebilir. Benzeri şekilde müşteriler memnuniyet anketleri,
+ve geri bildirimlerle sürekli analiz edilebilir.
