@@ -285,3 +285,11 @@ ON tpm.customer_id = tbm.customer_id
 where tpm.pro_monthly_start_date - tbm.basic_monthly_start_date < 0
 ````
 
+## :pushpin: C. Challenge Payment Question
+
+Foodie-Fi ekibi, 2020 yılı için abonelikler tablosundaki her bir müşteri tarafından ödenen tutarları içeren ve aşağıdaki gereksinimleri karşılayan yeni bir ödeme tablosu oluşturmanızı istiyor:
+
+Aylık ödemeler her zaman herhangi bir aylık ücretli planın orijinal başlangıç_tarihi ile ayın aynı gününde gerçekleşir,
+temel planlardan aylık veya profesyonel planlara yükseltmeler, o ay içinde ödenen mevcut tutar kadar azaltılır ve hemen başlar,
+Pro aylıktan pro yıllığa yükseltmeler mevcut fatura döneminin sonunda ödenir ve ayrıca ay döneminin sonunda başlar
+Bir müşteri bir kez churn olursa artık ödeme yapmayacaktır.
