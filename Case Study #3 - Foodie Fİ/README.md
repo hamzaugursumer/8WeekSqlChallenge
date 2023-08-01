@@ -593,3 +593,14 @@ farklı içgörüler oluşturulması ve müşteri eğilimine göre aksiyon almak
 4- Müşteri kayıp analizi yaparak müşterilerin ne oranda churn oldukları ve ne kadar sürede elde tutulduğunun bilinmesi ve ona göre aksiyon
    	   alınması çok önemlidir. Bu bilgiler ışığında kayıp edilmek üzere olan müşteriler veya diğer segmentler farklı aksiyon ve kampanyalarla
 elde tutulabilir ve daha fazla getiri sağlayabilir.
+
+## 4. If the Foodie-Fi team were to create an exit survey shown to customers who wish to cancel their subscription, what questions would you include in the survey?
+
+###(Foodie-Fi ekibi, aboneliklerini iptal etmek isteyen müşterilere gösterilen bir çıkış anketi oluşturacak olsaydı, ankete hangi soruları dahil ederdiniz?)
+
+1- Abonelik iptal nedeniniz nedir ? 
+2- Abonelik iptalinizde fiyat faktörü önemli mi ?
+3- Foodie Fi kullanımınız süresince teknik destek sorunuyla karşılaştınız mı ?
+4- Tekrar abonelik düşünmek için beklentiniz nedir ?
+5- Foodie Fi kullanımınıızı 1-5 arasında puanlasanız kaç verirsiniz ?
+
