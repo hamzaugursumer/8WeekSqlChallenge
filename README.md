@@ -2,8 +2,8 @@
 
 ## :information_source: About the Repo
 
-Hello there! Welcome to this repository. This repo contains works, examples, and solutions related to SQL. The case studies presented here have been completed using datasets created by Danny Ma under the name "8weeksqlchallenge.
-https://8weeksqlchallenge.com/
+Hello there! Welcome to this repository. This repo contains works, examples, and solutions related to SQL. The case studies presented here have been completed using datasets created by Danny Ma under the name "8weeksqlchallenge."
+* https://8weeksqlchallenge.com/
 ### :diamond_shape_with_a_dot_inside: 8 Week SQL Challenge
 
 ![img](https://8weeksqlchallenge.com/images/8-week-sql-challenge.png)
