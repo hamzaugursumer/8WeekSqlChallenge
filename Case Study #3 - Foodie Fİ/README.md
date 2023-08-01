@@ -599,8 +599,12 @@ elde tutulabilir ve daha fazla getiri sağlayabilir.
 ### (Foodie-Fi ekibi, aboneliklerini iptal etmek isteyen müşterilere gösterilen bir çıkış anketi oluşturacak olsaydı, ankete hangi soruları dahil ederdiniz?)
 
 1-Abonelik iptal nedeniniz nedir ? 
+
 2-Abonelik iptalinizde fiyat faktörü önemli mi ?
+
 3-Foodie Fi kullanımınız süresince teknik destek sorunuyla karşılaştınız mı ?
+
 4-Tekrar abonelik düşünmek için beklentiniz nedir ?
+
 5-Foodie Fi kullanımınıızı 1-5 arasında puanlasanız kaç verirsiniz ?
 
