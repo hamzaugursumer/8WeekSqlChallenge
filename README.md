@@ -14,5 +14,5 @@ Hello there! Welcome to this repository. This repo contains works, examples, and
 
 :rocket:I chose to create the content in Turkish to make it accessible and beneficial for Turkish speakers who wish to enhance their SQL proficiency.
 
-:rocket:I hope you find this repository valuable and that it helps you in honing your SQL expertise. Don't forget to give it a ⭐️ if you enjoy it!
+:rocket:I hope you find this repository valuable and that it helps you in honing your SQL expertise. Don't forget to give it a ⭐️
 
