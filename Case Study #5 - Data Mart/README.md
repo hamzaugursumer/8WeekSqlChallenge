@@ -499,29 +499,29 @@ from before_after_tables
 
 1. Which areas of the business have the highest negative impact in sales metrics performance in 2020 for the 12 week before and after period?
 
-region
+*region
 
-platform
+*platform
 
-age_band
+*age_band
 
-demographic
+*demographic
 
-customer_type
+*customer_type
 
 Do you have any further recommendations for Danny’s team at Data Mart or any interesting insights based off this analysis?
 
 (2020'de 12 hafta öncesi ve sonrası dönem için satış metrikleri performansında en yüksek olumsuz etkiye sahip iş alanları hangileridir?
 
-bölge
+*bölge
 
-platform
+*platform
 
-age_band
+*age_band
 
-demografik
+*demografik
 
-customer_type
+*customer_type
 
 Danny'nin Data Mart'taki ekibine başka tavsiyeleriniz veya bu analize dayanan ilginç görüşleriniz var mı?)
 
