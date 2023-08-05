@@ -247,3 +247,53 @@ order by total_sales.year
 |      2 |   2019 |                        27.28   |                          32.47  |                        40.25   |
 |      3 |   2020 |                        28.72   |                          32.73  |                        38.55   |
 
+
+8. Which age_band and demographic values contribute the most to Retail sales?
+
+(Perakende satışlara en çok hangi yaş_bandı ve demografik değerler katkıda bulunuyor?)
+````sql
+select 
+	   demographic,
+	   age_band,
+	   sum(sales) as sum_sales,
+	   round(sum(sales)*1.0 / (select sum(sales) from clean_weekly_sales where platform = 'Retail')*1.0,2)*100 as retail_percentage
+from clean_weekly_sales
+where platform = 'Retail'
+group by 1,2
+order by 3 desc
+````
+
+|        |  demographic  |    age_band    |  sum_sales   | retail_percentage |
+|--------|---------------|--------------  |--------------|-------------------|
+|      1 |  "unknown"    |   "unknown"    |  16067285533 |             41.00 |
+|      2 | "Families"    |   "Retirees"   |   6634686916 |             17.00 |
+|      3 |  "Couples"    |   "Retirees"   |   6370580014 |             16.00 |
+|      4 | "Families"    | "Middle Aged"  |   4354091554 |             11.00 |
+|      5 |  "Couples"    | "Young Adults" |   2602922797 |              7.00 |
+|      6 |  "Couples"    | "Middle Aged"  |   1854160330 |              5.00 |
+|      7 | "Families"    | "Young Adults" |   1770889293 |              4.00 |
+
+
+9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
+(Retail ve Shopify için her yılın ortalama işlem boyutunu bulmak üzere avg_transaction sütununu kullanabilir miyiz? Değilse bunun yerine nasıl hesaplarsınız?)
+
+We can't use it because if we try to average again based on the platform, it will be like averaging the average and we will mislead our data.
+(Kullanamayız çünkü, eğer platform bazlı tekrar ortalama almaya çalırsak ortalamanın ortalamasını almıs gibi oluruz ve verimizi yanıltırız.)
+````sql
+select platform,
+	   extract(year from (week_date)) as year,
+	   round(sum(sales)*1.0 / sum(transactions)*1.0,2) as avg_transaction,
+	   round(avg(avg_transaction),2) as incorrect_avg
+from clean_weekly_sales
+group by 1,2
+order by 2
+````
+
+|        |  platform |  year | avg_transaction | incorrect_avg |
+|--------|-----------|-------|-----------------|---------------|
+|      1 | "Retail"  |  2018 |           36.56 |         42.91 |
+|      2 | "Shopify" |  2018 |          192.48 |        188.28 |
+|      3 | "Retail"  |  2019 |           36.83 |         41.97 |
+|      4 | "Shopify" |  2019 |          183.36 |        177.56 |
+|      5 | "Retail"  |  2020 |           36.56 |         40.64 |
+|      6 | "Shopify" |  2020 |          179.03 |        174.87 |
