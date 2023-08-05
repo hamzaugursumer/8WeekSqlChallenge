@@ -302,3 +302,80 @@ order by 2
 
 
 ## :pushpin: 3. Before & After Analysis
+
+This technique is usually used when we inspect an important event and want to inspect the impact before and after a certain point in time.
+Taking the week_date value of 2020-06-15 as the baseline week where the Data Mart sustainable packaging changes came into effect.
+We would include all week_date values for 2020-06-15 as the start of the period after the change and the previous week_date values would be before.
+
+(Bu teknik genellikle önemli bir olayı incelediğimizde ve zaman içinde belirli bir noktadan önceki ve sonraki etkiyi incelemek istediğimizde kullanılır.
+Data Mart sürdürülebilir paketleme değişikliklerinin yürürlüğe girdiği temel hafta olarak 2020-06-15 week_date değeri alınır.
+Değişiklikten sonraki dönemin başlangıcı olarak 2020-06-15 için tüm week_date değerlerini dahil edeceğiz ve önceki week_date değerleri daha önce olacaktır.)
+
+
+1. What is the total sales for the 4 weeks before and after 2020-06-15? What is the growth or reduction rate in actual values and percentage of sales?
+
+(2020-06-15'ten önceki ve sonraki 4 hafta için toplam satışlar nedir? Gerçek değerlerdeki büyüme veya azalma oranı ve satışların yüzdesi nedir?)
+````sql
+-- solution 1:
+
+with weekly_sales as 
+-- filtered data
+(
+select week_date,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 21 and 28
+and calendar_year = 2020
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	sum(case
+			when week_number in (21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28) then total_sales end) as after_sales
+from weekly_sales  	
+)
+select after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+
+
+-- solution 2:
+
+with week_sales as 
+(
+select 
+      week_date,
+      week_number,
+      sum(sales) as total_sales
+from clean_weekly_sales 
+where week_number between 21 and 28  
+and calendar_year = 2020
+group by 1,2
+),
+lag_lead_sales as 
+(
+select 
+      week_date,
+      week_number,
+      total_sales,
+      lag(total_sales, 4) over (order by week_number) as before_sales,
+      lead(total_sales, 4) over (order by week_number) as after_sales
+from week_sales 
+),
+total_lag_lead as 
+( 
+select 
+      sum(before_sales) as before_changes_sales,
+      sum(after_sales) as after_changes_sales
+from lag_lead_sales 
+)
+select
+    after_changes_sales - before_changes_sales as diff_week_sales,
+    round((after_changes_sales - before_changes_sales)/before_changes_sales*100,2) as growth_percentage
+from total_lag_lead
+````
+
