@@ -1,13 +1,10 @@
 Giriş
 
 Data Mart, Danny'nin son girişimi ve taze ürünler konusunda uzmanlaşmış çevrimiçi süpermarketinin uluslararası operasyonlarını yürüttükten sonra Danny, satış performansını analiz etmek için desteğinizi istiyor.
-
 Haziran 2020'de Data Mart'ta büyük ölçekli tedarik değişiklikleri yapıldı. Tüm Data Mart ürünlerinde artık çiftlikten müşteriye kadar her adımda sürdürülebilir paketleme yöntemleri kullanılıyor.
-
 Danny'nin bu değişikliğin Data Mart ve ayrı iş alanlarının satış performansı üzerindeki etkisini ölçmek için yardımınıza ihtiyacı var.
 
 Cevaplamasına yardımcı olmanızı istediği temel iş soruları şunlardır:
-
 Haziran 2020'de yapılan değişikliklerin ölçülebilir etkisi ne oldu?
 Bu değişiklikten en çok hangi platform, bölge, segment ve müşteri türleri etkilendi?
 Satışlar üzerindeki etkiyi en aza indirmek için gelecekte benzer sürdürülebilirlik güncellemelerinin işletmeye dahil edilmesi konusunda ne yapabiliriz?
@@ -17,7 +14,6 @@ Satışlar üzerindeki etkiyi en aza indirmek için gelecekte benzer sürdürül
 Sütun Sözlüğü
 
 Sütunlar, sütun adlarına bağlı olarak oldukça açıklayıcıdır, ancak burada veri kümesi hakkında bazı ayrıntılar daha bulunmaktadır:
-
 Data Mart, çok bölgeli bir strateji kullanarak uluslararası operasyonlar yürütmektedir
 Data Mart, müşterilerine hizmet vermek için Shopify mağaza cephesi şeklinde hem perakende hem de çevrimiçi bir platforma sahiptir
 Müşteri segmenti ve customer_type verileri, Data Mart ile paylaşılan kişisel yaş ve demografi bilgileriyle ilgilidir
