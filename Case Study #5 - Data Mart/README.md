@@ -104,3 +104,28 @@ group by 1
 |      2  |    2019 |       365,639,285  |
 |      3  |    2020 |       375,813,651  |
 
+4. What is the total sales for each region for each month?
+(Her ay için her bölgenin toplam satışları ne kadardır?)
+````sql
+select extract(month from (week_date)) as months,
+	   region,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+group by 1,2
+order by 1
+````
+|   months | region          |  total_sales|
+|----------|-----------------|-------------|
+|        3  | "USA"          |   225353043 |
+|        3  | "OCEANIA"      |   783282888 |
+|        3  | "SOUTH AMERICA"|    71023109 |
+|        3  | "ASIA"         |   529770793 |
+|        3  | "AFRICA"       |   567767480 |
+|        3  | "EUROPE"       |    35337093 |
+|        3  | "CANADA"       |   144634329 |
+|        4  | "CANADA"       |   484552594 |
+|        4  | "SOUTH AMERICA"|   238451531 |
+|        4  | "AFRICA"       |  1911783504 |
+|        4  | "USA"          |   759786323 |
+
+* The first 11 lines of the 49-line output.
