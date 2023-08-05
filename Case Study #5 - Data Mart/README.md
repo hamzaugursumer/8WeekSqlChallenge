@@ -91,6 +91,7 @@ order by 1
 
 
 3. How many total transactions were there for each year in the dataset?
+
 (Veri setindeki her yıl için toplam kaç işlem vardı?)
 ````sql
 select distinct extract(year from (week_date)) as years,
@@ -105,6 +106,7 @@ group by 1
 |      3  |    2020 |       375,813,651  |
 
 4. What is the total sales for each region for each month?
+
 (Her ay için her bölgenin toplam satışları ne kadardır?)
 ````sql
 select extract(month from (week_date)) as months,
@@ -129,3 +131,17 @@ order by 1
 |        4 | USA          |   759786323 |
 
 * The first 11 lines of the 49-line output.
+
+5. What is the total count of transactions for each platform?
+````sql
+(Her bir platform için toplam işlem sayısı nedir?)
+
+select platform,
+	   sum(transactions) as total_transactions
+from clean_weekly_sales
+group by 1
+````
+|        |platform  |total_transactions|
+|--------|----------|------------------|
+|      1 | Shopify  |           5925169|
+|      2 | Retail   |        1081934227|
