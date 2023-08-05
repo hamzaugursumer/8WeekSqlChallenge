@@ -3,7 +3,7 @@
 
 # Case Study Questions
 
-## :pushpin: 1. Data Cleansing Steps 
+## :pushpin: 1. Data Cleaning Steps 
 ````sql
 -- Drop the table if it exists;
 -- (Eğer Tablo varsa düşür)
@@ -133,9 +133,9 @@ order by 1
 * The first 11 lines of the 49-line output.
 
 5. What is the total count of transactions for each platform?
-````sql
-(Her bir platform için toplam işlem sayısı nedir?)
 
+(Her bir platform için toplam işlem sayısı nedir?)
+````sql
 select platform,
 	   sum(transactions) as total_transactions
 from clean_weekly_sales
@@ -145,3 +145,105 @@ group by 1
 |--------|----------|------------------|
 |      1 | Shopify  |           5925169|
 |      2 | Retail   |        1081934227|
+
+
+6. What is the percentage of sales for Retail vs Shopify for each month?
+
+(Her ay için Perakende ve Shopify satışlarının yüzdesi nedir?)
+````sql
+with retail_sales as (
+  select
+    extract(month from week_date) as month,
+    sum(sales) as total_sales
+  from clean_weekly_sales
+  where platform = 'Retail'
+  group by month
+),
+shopify_sales as (
+  select
+    extract(month from week_date) as month,
+    sum(sales) as total_sales
+  from clean_weekly_sales
+  where platform = 'Shopify'
+  group by month
+),
+total_sales as (
+  select
+    extract(month from week_date) as month,
+    sum(sales) as total_sales
+  from clean_weekly_sales
+  group by month
+)
+select
+  total_sales.month,
+  round((retail_sales.total_sales*1.0/ total_sales.total_sales*1.0) * 100, 2) as retail_percentage,
+  round((shopify_sales.total_sales*1.0 / total_sales.total_sales*1.0) * 100, 2) as shopify_percentage
+from total_sales
+join retail_sales on total_sales.month = retail_sales.month
+join shopify_sales on total_sales.month = shopify_sales.month
+order by total_sales.month
+````
+
+|        |  month | retail_percentage | shopify_percentage |
+|--------|--------|------------------ |--------------------|
+|      1 |      3 |            97.54  |              2.46  |
+|      2 |      4 |            97.59  |              2.41  |
+|      3 |      5 |            97.30  |              2.70  |
+|      4 |      6 |            97.27  |              2.73  |
+|      5 |      7 |            97.29  |              2.71  |
+|      6 |      8 |            97.08  |              2.92  |
+|      7 |      9 |            97.38  |              2.62  |
+
+7. What is the percentage of sales by demographic for each year in the dataset?
+
+(Veri setindeki her bir yıl için demografiye göre satışların yüzdesi nedir?)
+````sql
+with 
+couples_demographic as (
+  select
+    extract(year from week_date) as year,
+    sum(sales) as total_sales
+  from clean_weekly_sales
+  where demographic = 'Couples'
+  group by year
+),
+families_demographic as (
+  select
+    extract(year from week_date) as year,
+    sum(sales) as total_sales
+  from clean_weekly_sales
+  where demographic = 'Families'
+  group by year
+),
+unknown_demographic as (
+  select
+    extract(year from week_date) as year,
+    sum(sales) as total_sales
+  from clean_weekly_sales
+  where demographic = 'unknown'
+  group by year	
+),
+total_sales as (
+  select
+    extract(year from week_date) as year,
+    sum(sales) as total_sales
+  from clean_weekly_sales
+  group by year
+)
+select
+  total_sales.year,
+  round((couples_demographic.total_sales*1.0/ total_sales.total_sales*1.0) * 100, 2) as couples_demographic_percentage,
+  round((families_demographic.total_sales*1.0 / total_sales.total_sales*1.0) * 100, 2) as families_demographic_percentage,
+  round((unknown_demographic.total_sales*1.0 / total_sales.total_sales*1.0) * 100, 2) as unknown_demographic_percentage
+from total_sales
+join couples_demographic on total_sales.year = couples_demographic.year
+join families_demographic on total_sales.year = families_demographic.year
+join unknown_demographic on total_sales.year = unknown_demographic.year
+order by total_sales.year
+````
+|        |  year  | couples_demographic_percentage | families_demographic_percentage | unknown_demographic_percentage |
+|--------|--------|--------------------------------|---------------------------------|--------------------------------|
+|      1 |   2018 |                        26.38   |                          31.99  |                        41.63   |
+|      2 |   2019 |                        27.28   |                          32.47  |                        40.25   |
+|      3 |   2020 |                        28.72   |                          32.73  |                        38.55   |
+
