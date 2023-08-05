@@ -51,3 +51,41 @@ from clean_weekly_sales
 | day_of_the_week | 
 |-----------------| 
 | Monday          | 
+
+
+2. What range of week numbers are missing from the dataset?
+
+(Veri kümesinde hangi aralıktaki hafta sayıları eksiktir?)
+````sql
+select distinct extract(week from (week_date)) as week_num
+from clean_weekly_sales
+order by 1
+````
+
+| Index | week_num |
+|-------|----------|
+| 1     | 13       |
+| 2     | 14       |
+| 3     | 15       |
+| 4     | 16       |
+| 5     | 17       |
+| 6     | 18       |
+| 7     | 19       |
+| 8     | 20       |
+| 9     | 21       |
+| 10    | 22       |
+| 11    | 23       |
+| 12    | 24       |
+| 13    | 25       |
+| 14    | 26       |
+| 15    | 27       |
+| 16    | 28       |
+| 17    | 29       |
+| 18    | 30       |
+| 19    | 31       |
+| 20    | 32       |
+| 21    | 33       |
+| 22    | 34       |
+| 23    | 35       |
+| 24    | 36       |
+
