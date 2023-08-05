@@ -62,7 +62,7 @@ from clean_weekly_sales
 order by 1
 ````
 
-| Index | week_num |
+|       | week_num |
 |-------|----------|
 | 1     | 13       |
 | 2     | 14       |
