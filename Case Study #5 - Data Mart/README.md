@@ -265,13 +265,13 @@ order by 3 desc
 
 |        |  demographic  |    age_band    |  sum_sales   | retail_percentage |
 |--------|---------------|--------------  |--------------|-------------------|
-|      1 |  "unknown"    |   "unknown"    |  16067285533 |             41.00 |
-|      2 | "Families"    |   "Retirees"   |   6634686916 |             17.00 |
-|      3 |  "Couples"    |   "Retirees"   |   6370580014 |             16.00 |
-|      4 | "Families"    | "Middle Aged"  |   4354091554 |             11.00 |
-|      5 |  "Couples"    | "Young Adults" |   2602922797 |              7.00 |
-|      6 |  "Couples"    | "Middle Aged"  |   1854160330 |              5.00 |
-|      7 | "Families"    | "Young Adults" |   1770889293 |              4.00 |
+|      1 |  "unknown"    |   unknown      |  16067285533 |             41.00 |
+|      2 | "Families"    |   Retirees     |   6634686916 |             17.00 |
+|      3 |  "Couples"    |   Retirees     |   6370580014 |             16.00 |
+|      4 | "Families"    | Middle Aged    |   4354091554 |             11.00 |
+|      5 |  "Couples"    | Young Adults   |   2602922797 |              7.00 |
+|      6 |  "Couples"    | Middle Aged    |   1854160330 |              5.00 |
+|      7 | "Families"    | Young Adults   |   1770889293 |              4.00 |
 
 
 9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
@@ -292,9 +292,9 @@ order by 2
 
 |        |  platform |  year | avg_transaction | incorrect_avg |
 |--------|-----------|-------|-----------------|---------------|
-|      1 | "Retail"  |  2018 |           36.56 |         42.91 |
-|      2 | "Shopify" |  2018 |          192.48 |        188.28 |
-|      3 | "Retail"  |  2019 |           36.83 |         41.97 |
-|      4 | "Shopify" |  2019 |          183.36 |        177.56 |
-|      5 | "Retail"  |  2020 |           36.56 |         40.64 |
-|      6 | "Shopify" |  2020 |          179.03 |        174.87 |
+|      1 | Retail    |  2018 |           36.56 |         42.91 |
+|      2 | Shopify   |  2018 |          192.48 |        188.28 |
+|      3 | Retail    |  2019 |           36.83 |         41.97 |
+|      4 | Shopify   |  2019 |          183.36 |        177.56 |
+|      5 | Retail    |  2020 |           36.56 |         40.64 |
+|      6 | Shopify   |  2020 |          179.03 |        174.87 |
