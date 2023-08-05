@@ -275,6 +275,7 @@ order by 3 desc
 
 
 9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
+
 (Retail ve Shopify için her yılın ortalama işlem boyutunu bulmak üzere avg_transaction sütununu kullanabilir miyiz? Değilse bunun yerine nasıl hesaplarsınız?)
 
 We can't use it because if we try to average again based on the platform, it will be like averaging the average and we will mislead our data.
