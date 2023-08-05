@@ -89,3 +89,18 @@ order by 1
 | 23    | 35       |
 | 24    | 36       |
 
+
+3. How many total transactions were there for each year in the dataset?
+(Veri setindeki her yıl için toplam kaç işlem vardı?)
+````sql
+select distinct extract(year from (week_date)) as years,
+       to_char(sum(transactions), 'FM999,999,999') as total_transactions
+from clean_weekly_sales
+group by 1
+````
+|         |   years | total_transactions |
+|---------|---------|--------------------|
+|      1  |    2018 |       346,406,460  |
+|      2  |    2019 |       365,639,285  |
+|      3  |    2020 |       375,813,651  |
+
