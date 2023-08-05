@@ -48,9 +48,10 @@ CREATE TABLE clean_weekly_sales AS (
 select distinct to_char(week_date, 'Day') as day_of_the_week
 from clean_weekly_sales
 ````
-| day_of_the_week | 
-|-----------------| 
-| Monday          | 
+|        |  day_of_the_week |
+|--------|------------------|
+|      1 |      Monday      |
+
 
 
 2. What range of week numbers are missing from the dataset?
