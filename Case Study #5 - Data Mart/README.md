@@ -38,3 +38,16 @@ CREATE TABLE clean_weekly_sales AS (
   FROM public.weekly_sales
 )
 ````
+
+## :pushpin: 2. Data Exploration
+
+1. What day of the week is used for each week_date value?
+
+(Her week_date değeri için haftanın hangi günü kullanılır?)
+````sql
+select distinct to_char(week_date, 'Day') as day_of_the_week
+from clean_weekly_sales
+````
+| day_of_the_week | 
+|-----------------| 
+| Monday          | 
