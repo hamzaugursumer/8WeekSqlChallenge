@@ -524,3 +524,206 @@ demografik
 customer_type
 
 Danny'nin Data Mart'taki ekibine başka tavsiyeleriniz veya bu analize dayanan ilginç görüşleriniz var mı?)
+
+
+````sql
+-- region based before after metric:
+
+with weekly_sales as 
+-- filtered data
+(
+select 
+	   region,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 13 and 37
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	region,
+	sum(case
+			when week_number in (13,14,15,16,17,18,19,20,21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28,29,30,31,32,33,34,35,36) then total_sales end) as after_sales
+from weekly_sales  
+group by 1
+)
+select 
+	  region,
+	  after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+
+-- The region with the most negative impact in the data is "Asia".
+````
+|        |    region    | sales_diff| sales_diff_percent |
+|------- |--------------|---------- |--------------------|
+|      1 | SOUTH AMERICA|  -2075531 |             -0.34  |
+|      2 |     CANADA   | -10637499 |             -0.85  |
+|      3 |    OCEANIA   | -58341540 |             -0.87  |
+|      4 |      ASIA    | -61315418 |             -1.33  |
+|      5 |       USA    |  -7257385 |             -0.37  |
+|      6 |     EUROPE   |  16278629 |              4.96  |
+|      7 |     AFRICA   |  54539249 |              1.10  |
+
+
+````sql
+-- platform based before after metric:
+
+with weekly_sales as 
+-- filtered data
+(
+select 
+	   platform,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 13 and 37
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	platform,
+	sum(case
+			when week_number in (13,14,15,16,17,18,19,20,21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28,29,30,31,32,33,34,35,36) then total_sales end) as after_sales
+from weekly_sales  
+group by 1
+)
+select 
+	  platform,
+	  after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+
+-- The retail space has a negative impact.
+````
+|        |  platform | sales_diff | sales_diff_percent |
+|--------|----------|-------------|--------------------|
+|      1 |   Retail  | -117464107 |             -0.59  |
+|      2 |  Shopify  |   48654612 |              9.35  |
+
+````sql
+-- age_band based before after metric:
+
+with weekly_sales as 
+-- filtered data
+(
+select 
+	   age_band,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 13 and 37
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	age_band,
+	sum(case
+			when week_number in (13,14,15,16,17,18,19,20,21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28,29,30,31,32,33,34,35,36) then total_sales end) as after_sales
+from weekly_sales  
+group by 1
+)
+select 
+	  age_band,
+	  after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+
+-- The unknown age_band category has the highest negative impact. 
+````
+|        |    age_band    | sales_diff | sales_diff_percent |
+|--------|----------------|------------|--------------------|
+|      1 |   Middle Aged  |  -7143725  |             -0.22  |
+|      2 |     Retirees   | -12158442  |             -0.18  |
+|      3 |     unknown    | -44645418  |             -0.55  |
+|      4 |   Young Adults |  -4861910  |             -0.21  |
+
+
+````sql
+-- demographic based before after metric:
+
+with weekly_sales as 
+-- filtered data
+(
+select 
+	   demographic,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 13 and 37
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	demographic,
+	sum(case
+			when week_number in (13,14,15,16,17,18,19,20,21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28,29,30,31,32,33,34,35,36) then total_sales end) as after_sales
+from weekly_sales  
+group by 1
+)
+select 
+	  demographic,
+	  after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+
+-- Unknown demographic group has the most negative impact.
+````
+|        |  demographic | sales_diff | sales_diff_percent |
+|--------|--------------|------------|--------------------|
+|      1 |    Couples   |  -16524711 |             -0.29  |
+|      2 |   Families   |   -7639366 |             -0.12  |
+|      3 |    unknown   |  -44645418 |             -0.55  |
+
+````sql
+-- customer_type based before after metric:
+
+with weekly_sales as 
+-- filtered data
+(
+select 
+	   customer_type,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 13 and 37
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	customer_type,
+	sum(case
+			when week_number in (13,14,15,16,17,18,19,20,21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28,29,30,31,32,33,34,35,36) then total_sales end) as after_sales
+from weekly_sales  
+group by 1
+)
+select 
+	  customer_type,
+	  after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+
+-- Existing customer type group has the highest negative impact.
+````
+|        |  customer_type | sales_diff | sales_diff_percent |
+|--------|----------------|------------|--------------------|
+|      1 |    Existing    |  -51510403 |             -0.51  |
+|      2 |      Guest     |  -35202995 |             -0.46  |
+|      3 |      New       |   17903903 |              0.69  |
+
