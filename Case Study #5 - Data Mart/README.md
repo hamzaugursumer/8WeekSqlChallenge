@@ -265,13 +265,13 @@ order by 3 desc
 
 |        |  demographic  |    age_band    |  sum_sales   | retail_percentage |
 |--------|---------------|--------------  |--------------|-------------------|
-|      1 |  "unknown"    |   unknown      |  16067285533 |             41.00 |
-|      2 | "Families"    |   Retirees     |   6634686916 |             17.00 |
-|      3 |  "Couples"    |   Retirees     |   6370580014 |             16.00 |
-|      4 | "Families"    | Middle Aged    |   4354091554 |             11.00 |
-|      5 |  "Couples"    | Young Adults   |   2602922797 |              7.00 |
-|      6 |  "Couples"    | Middle Aged    |   1854160330 |              5.00 |
-|      7 | "Families"    | Young Adults   |   1770889293 |              4.00 |
+|      1 |  unknown      |   unknown      |  16067285533 |             41.00 |
+|      2 | Families      |   Retirees     |   6634686916 |             17.00 |
+|      3 |  Couples      |   Retirees     |   6370580014 |             16.00 |
+|      4 | Families      | Middle Aged    |   4354091554 |             11.00 |
+|      5 |  Couples      | Young Adults   |   2602922797 |              7.00 |
+|      6 |  Couples      | Middle Aged    |   1854160330 |              5.00 |
+|      7 | Families      | Young Adults   |   1770889293 |              4.00 |
 
 
 9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
@@ -298,3 +298,7 @@ order by 2
 |      4 | Shopify   |  2019 |          183.36 |        177.56 |
 |      5 | Retail    |  2020 |           36.56 |         40.64 |
 |      6 | Shopify   |  2020 |          179.03 |        174.87 |
+
+
+
+## :pushpin: 3. Before & After Analysis
