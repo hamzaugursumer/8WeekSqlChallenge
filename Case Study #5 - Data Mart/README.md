@@ -378,4 +378,118 @@ select
     round((after_changes_sales - before_changes_sales)/before_changes_sales*100,2) as growth_percentage
 from total_lag_lead
 ````
+|       | sales_diff | sales_diff_percent |
+|-------|------------|--------------------|
+|    1  | -26884188  |             -1.15  |
 
+
+2. What about the entire 12 weeks before and after?
+
+(Peki ya öncesi ve sonrasındaki 12 haftanın tamamı?)
+
+* The date 2020-06-15 corresponds to week 24. The 12 weeks before and the 12 weeks after that are included in the process
+* (2020-06-15 tarihi 24. haftaya karşılık gelmektedir. Bundan önceki 12 hafta ve sonraki 12 hafta sürece dahil edilir.)
+````sql
+with weekly_sales as 
+-- filtered data
+(
+select week_date,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 13 and 37
+and calendar_year = 2020
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	sum(case
+			when week_number in (13,14,15,16,17,18,19,20,21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28,29,30,31,32,33,34,35,36) then total_sales end) as after_sales
+from weekly_sales  	
+)
+select after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+````
+
+|        | sales_diff | sales_diff_percent |
+|--------|------------|--------------------|
+|      1 | -152325394 |             -2.14  |
+
+3. How do the sale metrics for these 2 periods before and after compare with the previous years in 2018 and 2019?
+
+(Bu 2 dönem öncesi ve sonrası için satış metrikleri 2018 ve 2019'da önceki yıllarla nasıl karşılaştırılıyor?)
+
+````sql
+-- solution for 4 weeks after_before:
+with weekly_sales as 
+-- filtered data
+(
+select calendar_year,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 21 and 28
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	calendar_year,
+	sum(case
+			when week_number in (21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28) then total_sales end) as after_sales
+from weekly_sales 
+group by 1
+)
+select
+	  calendar_year,
+	  after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+````
+|        | calendar_year | sales_diff | sales_diff_percent |
+|--------|---------------|------------|--------------------|
+|      1 |          2018 |    4102105 |              0.19  |
+|      2 |          2019 |    2336594 |              0.10  |
+|      3 |          2020 |  -26884188 |             -1.15  |
+
+````sql
+-- solution for 12 weeks after_before:
+
+with weekly_sales as 
+-- filtered data
+(
+select calendar_year,
+	   week_number,
+	   sum(sales) as total_sales
+from clean_weekly_sales
+where week_number between 13 and 37
+group by 1,2
+),
+before_after_tables as 
+(
+select 
+	calendar_year,
+	sum(case
+			when week_number in (13,14,15,16,17,18,19,20,21,22,23,24) then total_sales end) as before_sales,
+	sum(case
+			when week_number in (25,26,27,28,29,30,31,32,33,34,35,36) then total_sales end) as after_sales
+from weekly_sales  
+group by 1
+)
+select 
+	  calendar_year,
+	  after_sales - before_sales as sales_diff,
+	  round((after_sales - before_sales)/before_sales*100,2) as sales_diff_percent
+from before_after_tables
+````
+|                | sales_diff | sales_diff_percent |
+|----------------|------------|--------------------|
+|          2018  |  104256193 |              1.63  |
+|          2019  |  -20740294 |             -0.30  |
+|          2020  | -152325394 |             -2.14  |
