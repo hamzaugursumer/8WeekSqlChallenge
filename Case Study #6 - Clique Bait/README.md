@@ -531,7 +531,225 @@ order by 1
 | 9     | 2       | "0635fb"  | Half Off - Treat Your Shellf(ish) | 2020-02-16 06:42:42.73573  | 14               | 4              | 1              | 0                   | 0              | Salmon, Kingfish, Abalone, Crab                            |
 | 10    | 2       | "1f1198"  | Half Off - Treat Your Shellf(ish) | 2020-02-01 21:51:55.078775 | 1                | 0              | 0              | 0                   | 0              |                                                           |
 | 11    | 2       | "3b5871"  | 25% Off - Living The Lux Life    | 2020-01-18 10:16:32.158475 | 18               | 6              | 1              | 1                   | 1              | Salmon, Kingfish, Russian Caviar, Black Truffle, Lobster, Oyster |
+* The first 11 lines of 3564 lines are shown
+
+
+1. Identifying users who have received impressions during each campaign period and comparing each metric with other users who did not have an impression event.
+
+(Her kampanya döneminde gösterim alan kullanıcıların belirlenmesi ve her bir metriğin gösterim olayı yaşamayan diğer kullanıcılarla karşılaştırılması)
+
+````sql
+with table1 as 
+(
+select 
+	distinct user_id,
+	visit_id,
+	campaign_name,
+	min(e.event_time) as min_event_time,
+	count(e.page_id) as page_views_count,
+	sum(case 
+			when ei.event_name = 'Add to Cart' then 1 else 0 end) as count_cart_add,
+	sum(case
+	    	when ei.event_name = 'Purchase' then 1 else 0 end) as count_purchase,
+	sum(case
+	   		when ei.event_name = 'Ad Impression' then 1 else 0 end) as count_ad_impression,
+	sum(case
+	   		when ei.event_name = 'Ad Click' then 1 else 0 end) as count_ad_click,
+	string_agg(case
+			  	   when ph.product_id is not null and ei.event_name = 'Add to Cart' then ph.page_name else null end , 
+			       ', ' order by e.sequence_number)
+from users as u
+left join events as e 
+ON e.cookie_id = u.cookie_id
+left join page_hierarchy as ph
+ON ph.page_id = e.page_id
+left join event_identifier as ei
+ON ei.event_type = e.event_type
+left join campaign_identifier as ci
+ON e.event_time BETWEEN ci.start_date and ci.end_date
+group by 1,2,3
+order by 1 
+)
+select
+    t1.user_id,
+    t1.campaign_name,
+    sum(case when t1.count_ad_impression > 0 then 1 else 0 end) as impression_received,
+    count(distinct case when t1.count_ad_impression > 0 then t1.visit_id else null end) as distinct_visits_with_impression,
+    sum(t1.page_views_count) as total_page_views,
+    sum(t1.count_cart_add) as total_cart_add,
+    sum(t1.count_purchase) as total_purchase,
+    sum(case when t1.count_ad_impression > 0 then t1.count_ad_impression else 0 end) as total_ad_impressions_with_impression,
+    sum(case when t1.count_ad_impression = 0 then t1.count_ad_impression else 0 end) as total_ad_impressions_without_impression,
+    sum(t1.count_ad_click) as total_ad_click
+from table1 t1
+group by t1.user_id, 
+		 t1.campaign_name
+````
+
+| index | user_id | campaign_name                   | impression_received | distinct_visits_with_impression | total_page_views | total_cart_add | total_purchase | total_ad_impressions_with_impression | total_ad_impressions_without_impression | total_ad_click |
+|-------|---------|---------------------------------|---------------------|--------------------------------|------------------|----------------|----------------|-------------------------------------|----------------------------------------|---------------|
+| 1     | 1       | Half Off - Treat Your Shellf(ish) | 3                   | 3                              | 95               | 28             | 5              | 3                                   | 0                                      | 3             |
+| 2     | 2       | 25% Off - Living The Lux Life    | 1                   | 1                              | 40               | 12             | 2              | 1                                   | 0                                      | 1             |
+| 3     | 2       | Half Off - Treat Your Shellf(ish) | 1                   | 1                              | 47               | 14             | 2              | 1                                   | 0                                      | 1             |
+| 4     | 3       | Half Off - Treat Your Shellf(ish) | 0                   | 0                              | 21               | 4              | 2              | 0                                   | 0                                      | 0             |
+| 5     | 3       |                                   | 3                   | 3                              | 94               | 30             | 4              | 3                                   | 0                                      | 3             |
+| 6     | 4       | Half Off - Treat Your Shellf(ish) | 1                   | 1                              | 30               | 6              | 1              | 1                                   | 0                                      | 1             |
+| 7     | 5       | Half Off - Treat Your Shellf(ish) | 1                   | 1                              | 55               | 17             | 1              | 1                                   | 0                                      | 1             |
+| 8     | 6       | 25% Off - Living The Lux Life    | 0                   | 0                              | 14               | 3              | 1              | 0                                   | 0                                      | 0             |
+| 9     | 6       | Half Off - Treat Your Shellf(ish) | 1                   | 1                              | 34               | 11             | 2              | 1                                   | 0                                      | 1             |
+| 10    | 7       | Half Off - Treat Your Shellf(ish) | 1                   | 1                              | 41               | 9              | 3              | 1                                   | 0                                      | 0             |
+| 11    | 7       |                                   | 1                   | 1                              | 42               | 11             | 3              | 1                                   | 0                                      | 1             |
+* The first 11 lines of 895 lines are shown
+
+2. Does clicking on an impression lead to higher purchase rates?
+
+(Bir gösterime tıklamak daha yüksek satın alma oranlarına yol açıyor mu?)
+````sql
+with table1 as
+(
+select 
+	distinct user_id,
+	visit_id,
+	campaign_name,
+	min(e.event_time) as min_event_time,
+	count(e.page_id) as page_views_count,
+	sum(case 
+			when ei.event_name = 'Add to Cart' then 1 else 0 end) as count_cart_add,
+	sum(case
+	    	when ei.event_name = 'Purchase' then 1 else 0 end) as count_purchase,
+	sum(case
+	   		when ei.event_name = 'Ad Impression' then 1 else 0 end) as count_ad_impression,
+	sum(case
+	   		when ei.event_name = 'Ad Click' then 1 else 0 end) as count_ad_click,
+	string_agg(case
+			  	   when ph.product_id is not null and ei.event_name = 'Add to Cart' then ph.page_name else null end , 
+			       ', ' order by e.sequence_number)
+from users as u
+left join events as e 
+ON e.cookie_id = u.cookie_id
+left join page_hierarchy as ph
+ON ph.page_id = e.page_id
+left join event_identifier as ei
+ON ei.event_type = e.event_type
+left join campaign_identifier as ci
+ON e.event_time BETWEEN ci.start_date and ci.end_date
+group by 1,2,3
+order by 1 
+),
+table2 as 
+(
+select 
+	campaign_name,
+	sum(count_ad_impression) as total_ad_impressions,
+	sum(count_ad_click) as total_ad_click
+from table1
+group by 1
+)
+select 
+	corr(total_ad_impressions, total_ad_click) as correlation_coeff
+from table2
+````
+|       | correlation_coeff |
+|-------|-------------------|
+|   1   | 0.9999376947048757 |
+
+
+3. What is the uplift in purchase rate when comparing users who click on a campaign impression versus users who do not receive an impression? What if we compare them with users who just an impression but do not click?
+
+(Bir kampanya gösterimine tıklayan kullanıcılar ile gösterim almayan kullanıcılar karşılaştırıldığında satın alma oranındaki artış nedir? Peki ya onları sadece bir gösterim alan ancak tıklamayan kullanıcılarla karşılaştırırsak?)
+````sql
+with table1 as (
+    select 
+	distinct user_id,
+	visit_id,
+	campaign_name,
+	min(e.event_time) as min_event_time,
+	count(e.page_id) as page_views_count,
+	sum(case 
+			when ei.event_name = 'Add to Cart' then 1 else 0 end) as count_cart_add,
+	sum(case
+	    	when ei.event_name = 'Purchase' then 1 else 0 end) as count_purchase,
+	sum(case
+	   		when ei.event_name = 'Ad Impression' then 1 else 0 end) as count_ad_impression,
+	sum(case
+	   		when ei.event_name = 'Ad Click' then 1 else 0 end) as count_ad_click,
+	string_agg(case
+			  	   when ph.product_id is not null and ei.event_name = 'Add to Cart' then ph.page_name else null end , 
+			       ', ' order by e.sequence_number)
+from users as u
+left join events as e 
+ON e.cookie_id = u.cookie_id
+left join page_hierarchy as ph
+ON ph.page_id = e.page_id
+left join event_identifier as ei
+ON ei.event_type = e.event_type
+left join campaign_identifier as ci
+ON e.event_time BETWEEN ci.start_date and ci.end_date
+group by 1,2,3
+order by 1 
+)
+select
+    t1.campaign_name,
+    sum(case when t1.count_ad_click > 0 then t1.count_purchase else 0 end) as purchases_with_click,
+    sum(case when t1.count_ad_click = 0 then t1.count_purchase else 0 end) as purchases_without_click,
+    sum(t1.count_purchase) as total_purchases,
+   
+   (
+	sum(case when t1.count_ad_click > 0 then t1.count_purchase else 0 end)::float / 
+    sum(case when t1.count_ad_click = 0 then t1.count_purchase else 0 end)::float
+   )
+   as increase_ratio
+
+from table1 t1
+group by t1.campaign_name
+````
+|       | campaign_name                   | purchases_with_click | purchases_without_click | total_purchases | increase_ratio           |
+|-------|---------------------------------|----------------------|-------------------------|----------------|-------------------------|
+|       |                                 | 87                   | 181                     | 268            | 0.48066298342541436    |
+| 1     | BOGOF - Fishing For Compliments | 50                   | 77                      | 127            | 0.6493506493506493     |
+| 2     | Half Off - Treat Your Shellf(ish) | 416                  | 764                     | 1180           | 0.5445026178010471     |
+| 3     | 25% Off - Living The Lux Life    | 71                   | 131                     | 202            | 0.5419847328244275     |
+
+
+4. What metrics can you use to quantify the success or failure of each campaign compared to eachother?
+
+(Her bir kampanyanın başarısını veya başarısızlığını diğerlerine kıyasla ölçmek için hangi metrikleri kullanabilirsiniz?)
+````sql
+/*
+
+1. Click-Through Rate (CTR): This metric measures the percentage of people who clicked on an ad after seeing it. 
+It's calculated by dividing the number of clicks by the number of impressions and multiplying by 100. Higher CTR indicates higher engagement.
+
+2. Conversion Rate: This measures the percentage of users who took a desired action, such as making a purchase or signing up, 
+after interacting with the campaign. It's calculated by dividing the number of conversions by the number of total interactions.
+
+3. Return on Investment (ROI): ROI calculates the profitability of a campaign by comparing the revenue generated from the campaign 
+to the costs of running it. It's expressed as a percentage and indicates how effective the campaign is in generating profit.
+
+4. Cost per Conversion (CPC): This metric calculates the cost of each conversion. It's calculated by dividing the total cost of the 
+campaign by the number of conversions. Lower CPC indicates more efficient spending.
+
+5. Revenue per Impression: This metric measures how much revenue is generated on average per impression. It's calculated by 
+dividing the total revenue by the total number of impressions.
 
 
 
 
+
+1. Tıklama Oranı (CTR): Bu metrik, reklamı gördükten sonra tıklayan kişilerin yüzdesini ölçer. Tıklamaların izlenimlere bölünüp 
+100 ile çarpılmasıyla hesaplanır. Daha yüksek CTR, daha yüksek etkileşimi gösterir.
+
+2. Dönüşüm Oranı: Bu, kampanya ile etkileşimde bulunan kullanıcıların istenen bir eylemi 
+(örneğin, satın alma veya kayıt olma) gerçekleştiren kullanıcıların yüzdesini ölçer. 
+Dönüşümlerin toplam etkileşimlere bölünmesiyle hesaplanır.
+
+3. Yatırım Getirisi (ROI): ROI, kampanyadan elde edilen geliri kampanyayı yürütmek için yapılan masraflarla karşılaştırarak 
+kampanyanın karlılığını hesaplar. Yüzde olarak ifade edilir ve kampanyanın ne kadar etkili olduğunu gösterir.
+
+4. Dönüşüm Başına Maliyet (CPC): Bu metrik her bir dönüşümün maliyetini hesaplar. Kampanyanın toplam maliyetini dönüşümlerin 
+sayısına bölmek suretiyle hesaplanır. Daha düşük CPC, daha etkili harcama anlamına gelir.
+
+5. İzlenim Başına Gelir: Bu metrik, her bir izlenim başına ortalama geliri ölçer. Toplam 
+gelirin toplam izlenim sayısına bölünmesiyle hesaplanır.
+*/
+````
