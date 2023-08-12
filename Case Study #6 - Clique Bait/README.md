@@ -474,3 +474,64 @@ from table1
 
 
 ## :pushpin: C. Campaigns Analysis
+
+
+### Generate a table that has 1 single row for every unique visit_id record and has the following columns:
+
+* user_id
+* visit_id
+* visit_start_time: the earliest event_time for each visit
+* page_views: count of page views for each visit
+* cart_adds: count of product cart add events for each visit
+* purchase: 1/0 flag if a purchase event exists for each visit
+* campaign_name: map the visit to a campaign if the visit_start_time falls between the start_date and end_date
+* impression: count of ad impressions for each visit
+* click: count of ad clicks for each visit
+* (Optional column) cart_products: a comma separated text value with products added to the cart sorted by the order they were added to the cart (hint: use the sequence_number)
+````sql
+select 
+	distinct user_id,
+	visit_id,
+	campaign_name,
+	min(e.event_time) as min_event_time,
+	count(e.page_id) as page_views_count,
+	sum(case 
+			when ei.event_name = 'Add to Cart' then 1 else 0 end) as count_cart_add,
+	sum(case
+	    	when ei.event_name = 'Purchase' then 1 else 0 end) as count_purchase,
+	sum(case
+	   		when ei.event_name = 'Ad Impression' then 1 else 0 end) as count_ad_impression,
+	sum(case
+	   		when ei.event_name = 'Ad Click' then 1 else 0 end) as count_ad_click,
+	string_agg(case
+			  	   when ph.product_id is not null and ei.event_name = 'Add to Cart' then ph.page_name else null end , 
+			       ', ' order by e.sequence_number)
+from users as u
+left join events as e 
+ON e.cookie_id = u.cookie_id
+left join page_hierarchy as ph
+ON ph.page_id = e.page_id
+left join event_identifier as ei
+ON ei.event_type = e.event_type
+left join campaign_identifier as ci
+ON e.event_time BETWEEN ci.start_date and ci.end_date
+group by 1,2,3
+order by 1 
+````
+|       | user_id | visit_id | campaign_name                      | min_event_time           | page_views_count | count_cart_add | count_purchase | count_ad_impression | count_ad_click | string_agg                                                |
+|-------|---------|----------|------------------------------------|--------------------------|------------------|----------------|----------------|---------------------|----------------|-----------------------------------------------------------|
+| 1     | 1       | "02a5d5"  | Half Off - Treat Your Shellf(ish) | 2020-02-26 16:57:26.260871 | 4                | 0              | 0              | 0                   | 0              |                                                           |
+| 2     | 1       | "0826dc"  | Half Off - Treat Your Shellf(ish) | 2020-02-26 05:58:37.918618 | 1                | 0              | 0              | 0                   | 0              |                                                           |
+| 3     | 1       | "0fc437"  | Half Off - Treat Your Shellf(ish) | 2020-02-04 17:49:49.602976 | 19               | 6              | 1              | 1                   | 1              | Tuna, Russian Caviar, Black Truffle, Abalone, Crab, Oyster |
+| 4     | 1       | "30b94d"  | Half Off - Treat Your Shellf(ish) | 2020-03-15 13:12:54.023936 | 19               | 7              | 1              | 1                   | 1              | Salmon, Kingfish, Tuna, Russian Caviar, Abalone, Lobster, Crab |
+| 5     | 1       | "41355d"  | Half Off - Treat Your Shellf(ish) | 2020-03-25 00:11:17.860655 | 7                | 1              | 0              | 0                   | 0              | Lobster                                                   |
+| 6     | 1       | "ccf365"  | Half Off - Treat Your Shellf(ish) | 2020-02-04 19:16:09.182546 | 11               | 3              | 1              | 0                   | 0              | Lobster, Crab, Oyster                                     |
+| 7     | 1       | "eaffde"  | Half Off - Treat Your Shellf(ish) | 2020-03-25 20:06:32.342989 | 21               | 8              | 1              | 1                   | 1              | Salmon, Tuna, Russian Caviar, Black Truffle, Abalone, Lobster, Crab, Oyster |
+| 8     | 1       | "f7c798"  | Half Off - Treat Your Shellf(ish) | 2020-03-15 02:23:26.312543 | 13               | 3              | 1              | 0                   | 0              | Russian Caviar, Crab, Oyster                              |
+| 9     | 2       | "0635fb"  | Half Off - Treat Your Shellf(ish) | 2020-02-16 06:42:42.73573  | 14               | 4              | 1              | 0                   | 0              | Salmon, Kingfish, Abalone, Crab                            |
+| 10    | 2       | "1f1198"  | Half Off - Treat Your Shellf(ish) | 2020-02-01 21:51:55.078775 | 1                | 0              | 0              | 0                   | 0              |                                                           |
+| 11    | 2       | "3b5871"  | 25% Off - Living The Lux Life    | 2020-01-18 10:16:32.158475 | 18               | 6              | 1              | 1                   | 1              | Salmon, Kingfish, Russian Caviar, Black Truffle, Lobster, Oyster |
+
+
+
+
