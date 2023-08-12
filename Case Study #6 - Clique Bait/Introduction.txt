@@ -1,0 +1,13 @@
+Introduction
+
+Clique Bait is not like your regular online seafood store - the founder and CEO Danny, was also a part of a digital data analytics team and wanted to expand his knowledge into the seafood industry!
+
+In this case study - you are required to support Danny’s vision and analyse his dataset and come up with creative solutions to calculate funnel fallout rates for the Clique Bait online store.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Giriş
+
+Clique Bait sıradan bir çevrimiçi deniz ürünleri mağazası değil - kurucusu ve CEO'su Danny, aynı zamanda bir dijital veri analizi ekibinin parçasıydı ve bilgisini deniz ürünleri sektörüne genişletmek istedi!
+
+Bu vaka çalışmasında - Danny'nin vizyonunu desteklemeniz, veri setini analiz etmeniz ve Clique Bait çevrimiçi mağazası için huni düşüş oranlarını hesaplamak için yaratıcı çözümler bulmanız gerekmektedir.
