@@ -294,4 +294,145 @@ from table4
 |   3   |       Fish       |    4633    |       2789        |  674   |   2115   |
 
 * !! We create a new table using the query given above;
+
 (Yukarıda verilen sorguyu kullanarak yeni bir tablo oluşturuyoruz);
+````sql
+CREATE TABLE clique_bait_new_table AS
+(
+with 
+table1 as 
+	(
+	select e.visit_id,
+		   ph.product_id,
+		   ph.page_name as product_name,
+		   ph.product_category,
+		   SUM(CASE
+			  		WHEN ei.event_name = 'Page View' then 1 else 0 end) as page_view,
+		   SUM(CASE
+			  		WHEN ei.event_name = 'Add to Cart' then 1 else 0 end) as add_to_cart
+	from events as e
+	left join page_hierarchy as ph 
+	ON e.page_id = ph.page_id
+	left join event_identifier as ei
+	ON e.event_type = ei.event_type
+	where product_id is not null
+	group by 1,2,3,4
+	),
+table2 as 
+	(
+	select 
+			distinct visit_id
+	from events as e	
+	left join event_identifier as ei
+	ON ei.event_type = e.event_type
+	where event_name = 'Purchase'
+	),
+table3 as 
+	(	
+	select table1.visit_id,
+		   table1.product_id,
+		   table1.product_name,
+		   table1.product_category,
+		   table1.page_view,
+		   table1.add_to_cart,
+		   (CASE
+				WHEN table2.visit_id is not null then 1 else 0 end) as purchase
+	from table1 
+	left join table2 
+	ON table2.visit_id = table1.visit_id
+	),
+table4 as
+	(
+	select 
+		   product_category,
+		   SUM(page_view) AS view_count,
+		   SUM(add_to_cart) as add_to_cart_count,
+		   SUM(CASE WHEN add_to_cart = 1 AND purchase = 0 THEN 1 ELSE 0 END) AS cancel,
+    	   SUM(CASE WHEN add_to_cart = 1 AND purchase = 1 THEN 1 ELSE 0 END) AS purchase
+	from table3	
+	group by 1
+	)
+select * 
+from table4
+)
+````
+1. Which product had the most views, cart adds and purchases?
+
+(En çok görüntülenen, sepete eklenen ve satın alınan ürün hangisiydi?)
+````sql
+select *  
+from clique_bait_new_table
+````
+|       | product_category | view_count | add_to_cart_count | cancel | purchase |
+|-------|------------------|------------|-------------------|--------|----------|
+|   1   |      Luxury      |    3032    |       1870        |  466   |   1404   |
+|   2   |    Shellfish     |    6204    |       3792        |  894   |   2898   |
+|   3   |       Fish       |    4633    |       2789        |  674   |   2115   |
+
+
+2. Which product was most likely to be abandoned?
+
+(Hangi ürünün terk edilme olasılığı daha yüksekti?)
+````sql
+select 
+    product_category,
+    round(case 
+		  	 when product_category = 'Luxury' then cancel/add_to_cart_count 
+             when product_category = 'Shellfish' then cancel/add_to_cart_count 
+             when product_category = 'Fish' then cancel/add_to_cart_count else 0 end,3) as abandonment_rate
+from clique_bait_new_table
+````
+|       | product_category | abandonment_rate |
+|-------|------------------|------------------|
+|   1   |      Luxury      |      0.249       |
+|   2   |    Shellfish     |      0.236       |
+|   3   |       Fish       |      0.242       |
+
+
+3. Which product had the highest view to purchase percentage?
+
+(Hangi ürün en yüksek görüntüleme-satın alma yüzdesine sahipti?)
+````sql
+select 
+	product_category,
+	round(purchase/view_count,2)*100 as Percentage_of_views_and_purchases
+from clique_bait_new_table
+````
+
+|       | product_category | percentage_of_views_and_purchases |
+|-------|------------------|----------------------------------|
+|   1   |      Luxury      |             46.00                |
+|   2   |    Shellfish     |             47.00                |
+|   3   |       Fish       |             46.00                |
+
+
+4. What is the average conversion rate from view to cart add?
+
+(Görüntülemeden sepete eklemeye kadar ortalama dönüşüm oranı nedir?)
+
+* Conversion Rate (Dönüşüm Oranı) : Dönüşüm oranı, bir eylemin gerçekleştiği önceki bir eyleme göre yüzdesel olarak ifade edilen orandır.  
+  Bu, bir hedefe ulaşanların sayısını başlangıç noktasındaki tüm katılımcıların sayısına bölerken hesaplanır.
+
+* Cıktıya Göre ; Dönüşüm Oranı = Sepete Ekleme / Görüntüleme
+
+* Conversion Rate: The conversion rate is the percentage ratio expressed between a subsequent action occurring after a previous action. 
+It's calculated by dividing the number of those who achieve a goal by the total number of participants at the starting point.
+
+* Based on the Output; Conversion Rate = Add to Cart / Views
+
+
+* Örnek:
+Bir e-ticaret web sitesi düşünelim. Bu web sitesinde ürünleri görüntüleyen ziyaretçilerin bazıları ürünü sepete ekler ve daha sonra satın alır. 
+Bu süreçteki dönüşüm oranı aşağıdaki şekilde hesaplanır:
+
+Görüntüleme sayısı: 10.000 ziyaretçi
+Sepete ekleme sayısı: 1.000 kişi
+Satın alma sayısı: 200 kişi
+
+* Görüntülemeden sepete ekleme oranı: 1.000 / 10.000 = 0.1 (veya %10)
+* Görüntülemeden satın alma oranı: 200 / 10.000 = 0.02 (veya %2)
+* Sepete eklenenlerden satın alma oranı: 200 / 1.000 = 0.2 (veya %20)
+
+
+
+
