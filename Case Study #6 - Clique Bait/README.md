@@ -5,3 +5,10 @@
 
 ## :pushpin: A. Digital Analysis
 
+1. How many users are there?
+(Kaç kullanıcı var?)
+````sql
+select 
+		count(distinct user_id) as user_count 
+from users
+````
