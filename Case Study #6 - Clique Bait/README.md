@@ -433,6 +433,44 @@ Satın alma sayısı: 200 kişi
 * Görüntülemeden satın alma oranı: 200 / 10.000 = 0.02 (veya %2)
 * Sepete eklenenlerden satın alma oranı: 200 / 1.000 = 0.2 (veya %20)
 
+````sql
+with table1 as 
+(
+select 
+	product_category,
+	view_count,
+	add_to_cart_count
+from clique_bait_new_table
+)
+select 
+	ROUND(AVG((add_to_cart_count*1.0/view_count*1.0)),2)*100 AS average_conversion_rate
+from table1 
+````
+|       | average_conversion_rate |
+|-------|-------------------------|
+|   1   |           61.00         |
 
 
+5. What is the average conversion rate from cart add to purchase?
 
+(Sepete ekleme işleminden satın alma işlemine ortalama dönüşüm oranı nedir?)
+````sql
+with table1 as 
+(
+select 
+	product_category,
+	purchase,
+	add_to_cart_count
+from clique_bait_new_table
+)
+select 
+	ROUND(AVG((purchase*1.0/add_to_cart_count*1.0)),2) AS average_conversion_rate
+from table1 
+````
+
+|       | average_conversion_rate |
+|-------|-------------------------|
+|   1   |           0.76          |
+
+
+## :pushpin: C. Campaigns Analysis
