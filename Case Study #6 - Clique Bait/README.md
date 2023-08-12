@@ -9,6 +9,6 @@
 (Kaç kullanıcı var?)
 ````sql
 select 
-	count(distinct user_id) as user_count 
+      count(distinct user_id) as user_count 
 from users
 ````
