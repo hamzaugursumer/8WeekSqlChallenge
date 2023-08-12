@@ -230,3 +230,68 @@ group by 1
 * Her bir ürün kaç kez sepete eklendi?
 * Her bir ürün kaç kez sepete eklendi ancak satın alınmadı (terk edildi)?
 * Her bir ürün kaç kez satın alındı?
+````sql
+with 
+table1 as 
+	(
+	select e.visit_id,
+		   ph.product_id,
+		   ph.page_name as product_name,
+		   ph.product_category,
+		   SUM(CASE
+			  		WHEN ei.event_name = 'Page View' then 1 else 0 end) as page_view,
+		   SUM(CASE
+			  		WHEN ei.event_name = 'Add to Cart' then 1 else 0 end) as add_to_cart
+	from events as e
+	left join page_hierarchy as ph 
+	ON e.page_id = ph.page_id
+	left join event_identifier as ei
+	ON e.event_type = ei.event_type
+	where product_id is not null
+	group by 1,2,3,4
+	),
+table2 as 
+	(
+	select 
+			distinct visit_id
+	from events as e	
+	left join event_identifier as ei
+	ON ei.event_type = e.event_type
+	where event_name = 'Purchase'
+	),
+table3 as 
+	(	
+	select table1.visit_id,
+		   table1.product_id,
+		   table1.product_name,
+		   table1.product_category,
+		   table1.page_view,
+		   table1.add_to_cart,
+		   (CASE
+				WHEN table2.visit_id is not null then 1 else 0 end) as purchase
+	from table1 
+	left join table2 
+	ON table2.visit_id = table1.visit_id
+	),
+table4 as
+	(
+	select 
+		   product_category,
+		   SUM(page_view) AS view_count,
+		   SUM(add_to_cart) as add_to_cart_count,
+		   SUM(CASE WHEN add_to_cart = 1 AND purchase = 0 THEN 1 ELSE 0 END) AS cancel,
+    	   SUM(CASE WHEN add_to_cart = 1 AND purchase = 1 THEN 1 ELSE 0 END) AS purchase
+	from table3	
+	group by 1
+	)
+select * 
+from table4
+````
+|       | product_category | view_count | add_to_cart_count | cancel | purchase |
+|-------|------------------|------------|-------------------|--------|----------|
+|   1   |      Luxury      |    3032    |       1870        |  466   |   1404   |
+|   2   |    Shellfish     |    6204    |       3792        |  894   |   2898   |
+|   3   |       Fish       |    4633    |       2789        |  674   |   2115   |
+
+* !! We create a new table using the query given above;
+(Yukarıda verilen sorguyu kullanarak yeni bir tablo oluşturuyoruz);
