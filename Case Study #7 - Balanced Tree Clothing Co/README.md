@@ -548,3 +548,84 @@ group by 1,2,3,4
 | 10    | Womens        | Jeans        | c4a632  | Navy Oversized Jeans - Womens  | 1257           | 16341         | 1828              | 423              | 16.900      | 59.57              | 40.43                 | 4.44               | 4.15                  |
 | 11    | Womens        | Jeans        | e31d39  | Cream Relaxed Jeans - Womens   | 1282           | 12820         | 1430              | 432              | 17.300      | 60.19              | 39.81                 | 3.33               | 3.28                  |
 | 12    | Womens        | Jeans        | e83aa3  | Black Straight Jeans - Womens  | 1238           | 39616         | 4670              | 408              | 16.300      | 58.09              | 41.91                 | 11.37              | 11.56                 |
+
+## :pushpin: E. Bonus Challenge
+
+* Use a single SQL query to transform the product_hierarchy and product_prices datasets to the product_details table.
+Hint: you may want to consider using a recursive CTE to solve this problem!
+
+* product_hierarchy ve product_prices veri kümelerini product_details tablosuna dönüştürmek için tek bir SQL sorgusu kullanın.
+İpucu: Bu sorunu çözmek için özyinelemeli bir CTE kullanmayı düşünebilirsiniz!
+
+````sql
+with gender as
+	(
+select 
+	id as gender_id, 
+	level_text as category 
+from product_hierarchy 
+where level_name='Category'
+	),
+seg as 
+	(
+select 
+	parent_id as gender_id,
+	id as seg_id, 
+	level_text as Segment 
+from product_hierarchy 
+where level_name='Segment'
+	),
+style as 
+	(
+select 
+	parent_id as seg_id,
+	id as style_id, 
+	level_text as Style
+from product_hierarchy 
+where level_name='Style'
+	),
+last_table as
+	(
+select 
+	g.gender_id as category_id,
+	category as category_name,
+	s.seg_id as segment_id,
+	segment as segment_name,
+	style_id,
+	style as style_name
+from gender as g 
+left join seg as s 
+on g.gender_id = s.gender_id
+left join style st 
+on s.seg_id = st.seg_id
+ 	)
+select 
+	product_id, 
+	price,
+	concat(style_name,' ',segment_name,' - ',category_name) as product_name,
+	category_id,
+	segment_id,
+	style_id,
+	category_name,
+	segment_name,
+	style_name 
+from last_table as lt 
+left join product_prices as pp
+on lt.style_id=pp.id
+````
+|       | product_id | price | product_name                   | category_id | segment_id | style_id | category_name | segment_name | style_name       |
+|-------|------------|-------|--------------------------------|-------------|------------|----------|---------------|--------------|------------------|
+| 1     | c4a632     | 13    | Navy Oversized Jeans - Womens  | 1           | 3          | 7        | Womens        | Jeans        | Navy Oversized   |
+| 2     | e83aa3     | 32    | Black Straight Jeans - Womens  | 1           | 3          | 8        | Womens        | Jeans        | Black Straight   |
+| 3     | e31d39     | 10    | Cream Relaxed Jeans - Womens   | 1           | 3          | 9        | Womens        | Jeans        | Cream Relaxed    |
+| 4     | d5e9a6     | 23    | Khaki Suit Jacket - Womens     | 1           | 4          | 10       | Womens        | Jacket       | Khaki Suit       |
+| 5     | 72f5d4     | 19    | Indigo Rain Jacket - Womens    | 1           | 4          | 11       | Womens        | Jacket       | Indigo Rain      |
+| 6     | 9ec847     | 54    | Grey Fashion Jacket - Womens   | 1           | 4          | 12       | Womens        | Jacket       | Grey Fashion     |
+| 7     | 5d267b     | 40    | White Tee Shirt - Mens         | 2           | 5          | 13       | Mens          | Shirt        | White Tee        |
+| 8     | c8d436     | 10    | Teal Button Up Shirt - Mens    | 2           | 5          | 14       | Mens          | Shirt        | Teal Button Up   |
+| 9     | 2a2353     | 57    | Blue Polo Shirt - Mens         | 2           | 5          | 15       | Mens          | Shirt        | Blue Polo        |
+| 10    | f084eb     | 36    | Navy Solid Socks - Mens        | 2           | 6          | 16       | Mens          | Socks        | Navy Solid       |
+| 11    | b9a74d     | 17    | White Striped Socks - Mens     | 2           | 6          | 17       | Mens          | Socks        | White Striped    |
+| 12    | 2feb6b     | 29    | Pink Fluro Polkadot Socks - Mens | 2          | 6          | 18       | Mens          | Socks        | Pink Fluro Polkadot |
+
+
