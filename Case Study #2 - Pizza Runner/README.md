@@ -1,6 +1,7 @@
 # :heavy_check_mark: Case Study #2 Pizza Runner
 ![Case Study 2 Image](https://8weeksqlchallenge.com/images/case-study-designs/2.png)
-## CLEANED DATA - (customer_orders)
+
+## :old_key: Cleaned Data - (customer_orders)
 
 ````sql
 --CLEANED DATA (customer_orders)
@@ -26,7 +27,7 @@ SET exclusions =
 	
 	alter table customer_orders_clean rename to customer_orders
   `````
-## DATA CLEAN
+## :old_key: Data Clean 
 
 ````sql
 CREATE TABLE runner_orders_clean AS
@@ -67,8 +68,9 @@ drop table runner_orders
 alter table runner_orders_clean rename to runner_orders
 `````
 
-## SOLUTIONS
-## A. Pizza Metrics
+#SOLUTIONS
+
+## :pushpin: A. Pizza Metrics
 
 1. How many pizzas were ordered?
 
@@ -77,6 +79,10 @@ alter table runner_orders_clean rename to runner_orders
 select count(order_id) as ordered_pizza 
 from customer_orders
 `````
+|       | ordered_pizza |
+|-------|---------------|
+|   1   |      14       |
+
 2. How many unique customer orders were made?
 
 (Kaç adet benzersiz müşteri siparişi verildi?)
