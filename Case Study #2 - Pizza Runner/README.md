@@ -68,7 +68,7 @@ drop table runner_orders
 alter table runner_orders_clean rename to runner_orders
 `````
 
-# Solutions
+# :rocket: Solutions
 
 ## :pushpin: A. Pizza Metrics
 
