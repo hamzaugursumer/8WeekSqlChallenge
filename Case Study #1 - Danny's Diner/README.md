@@ -3,8 +3,6 @@
 
 # Case Study Questions
 
-## :pushpin: A. High Level Sales Analysis
-
 1. Her bir müşterinin restoranda harcadığı toplam tutar nedir?
 ````sql
 select 
