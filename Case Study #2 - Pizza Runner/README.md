@@ -437,6 +437,22 @@ left join pizza_toppings as pt
 ON t1.recipes_id = pt.topping_id
 order by pizza_id
 `````
+|       | pizza_name  | topping_name |
+|-------|-------------|--------------|
+|   1   | Meatlovers  |   BBQ Sauce  |
+|   2   | Meatlovers  |   Pepperoni  |
+|   3   | Meatlovers  |    Cheese    |
+|   4   | Meatlovers  |    Salami    |
+|   5   | Meatlovers  |   Chicken    |
+|   6   | Meatlovers  |    Bacon     |
+|   7   | Meatlovers  |  Mushrooms   |
+|   8   | Meatlovers  |     Beef     |
+|   9   | Vegetarian  | Tomato Sauce |
+|  10   | Vegetarian  |    Cheese    |
+|  11   | Vegetarian  |  Mushrooms   |
+|  12   | Vegetarian  |    Onions    |
+|  13   | Vegetarian  |   Peppers    |
+|  14   | Vegetarian  |   Tomatoes   |
 
 2. What was the most commonly added extra?
 
@@ -457,6 +473,11 @@ ON pt.topping_id = t1.extras_id
 group by 2
 order by 1 desc
 `````
+|       | count | topping_name |
+|-------|-------|--------------|
+|   1   |   4   |    Bacon     |
+|   2   |   1   |   Chicken    |
+|   3   |   1   |    Cheese    |
 
 3. What was the most common exclusion?
 
@@ -476,6 +497,11 @@ ON pt.topping_id = t1.exclusions_id
 group by 2
 order by 1 desc
 `````
+|       | count_exclusions | topping_name |
+|-------|------------------|--------------|
+|   1   |        4         |    Cheese    |
+|   2   |        1         |  Mushrooms   |
+|   3   |        1         |  BBQ Sauce   |
 
 
 5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders 
@@ -523,8 +549,23 @@ ON t1.pizza_id = t2.pizza_id
 where t1.pizza_id = 1
 order by order_id
 `````
+|       | order_id |   topping_segment   |
+|-------|----------|---------------------|
+|   1   |    4     | Meatlovers - exc 4  |
+|   2   |    4     |  non exc or ext     |
+|   3   |    5     |  non exc or ext     |
+|   4   |    5     | Meatlover - ext 2x 1|
+|   5   |    9     | Meatlover - ext 2x 1|
+|   6   |    9     | Meatlovers - exc 4  |
+|   7   |    9     |  non exc or ext     |
+|   8   |    9     | Meatlover - ext 2x 5|
+|   9   |    10    | Meatlover - ext 2x 4|
+|  10   |    10    |  non exc or ext     |
+|  11   |    10    | Meatlover - ext 2x 1|
+|  12   |    10    | Meatlovers - exc 2  |
+|  13   |    10    | Meatlovers - exc 6  |
 
-## D. Pricing and Ratings
+## :pushpin: D. Pricing and Ratings
 
 1. If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money 
 has Pizza Runner made so far if there are no delivery fees?
