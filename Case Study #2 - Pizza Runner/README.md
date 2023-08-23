@@ -262,6 +262,12 @@ from runners
 group by 2
 order by 2 
 `````
+|       | weeks_ | count |
+|-------|--------|-------|
+|   1   |   2    |   1   |
+|   2   |   3    |   1   |
+|   3   |   1    |   2   |
+
 2. What was the average time in minutes it took for each runner to arrive at the Pizza
 
 (Her bir koşucunun Pizza'ya varması için geçen ortalama süre dakika cinsinden neydi?)
@@ -280,6 +286,11 @@ select runner_id,
 from table1
 order by 2 
 `````
+|       | runner_id | avg_pickup_min |
+|-------|-----------|----------------|
+|   1   |     3     |      10        |
+|   2   |     1     |      15        |
+|   3   |     2     |      23        |
 
 3. Is there any relationship between the number of pizzas and how long the order takes to prepare?
 
@@ -300,6 +311,11 @@ select order_count,
 from table1 
 group by 1
 `````
+|       | order_count | avg_prepare_time |
+|-------|-------------|------------------|
+|   1   |      3      |        29        |
+|   2   |      2      |        18        |
+|   3   |      1      |        12        |
 
 4. What was the average distance travelled for each customer?
 
@@ -313,6 +329,13 @@ ON ro.order_id = co.order_id
 group by 1
 order by 1
 `````
+|       | customer_id | avg_distance |
+|-------|-------------|--------------|
+|   1   |     101     |    20.00     |
+|   2   |     102     |    16.73     |
+|   3   |     103     |    23.40     |
+|   4   |     104     |    10.00     |
+|   5   |     105     |    25.00     |
 
 5. What was the difference between the longest and shortest delivery times for all orders?
 (Tüm siparişler için en uzun ve en kısa teslimat süreleri arasındaki fark neydi?)
@@ -327,6 +350,9 @@ where cancellation is null
 select (max_duration-min_duration) as diff_duration
 from table1 
 `````
+|       | diff_duration |
+|-------|---------------|
+|   1   |      30       |
 
 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
 
@@ -341,6 +367,16 @@ where cancellation is null
 group by 1,2
 order by 2
 `````
+| index | order_id | runner_id | average_speed |
+|-------|----------|-----------|---------------|
+|   1   |    1     |     1     |     37.50     |
+|   2   |    2     |     1     |     44.44     |
+|   3   |    3     |     1     |     40.20     |
+|   4   |    10    |     1     |     60.00     |
+|   5   |    4     |     2     |     35.10     |
+|   6   |    7     |     2     |     60.00     |
+|   7   |    8     |     2     |     93.60     |
+|   8   |    5     |     3     |     40.00     |
 
 7. What is the successful delivery percentage for each runner?
 (Her bir koşucu için başarılı teslimat yüzdesi nedir?)
@@ -358,16 +394,27 @@ group by 1
 select runner_id,
 	   round((order_count/avg_duration)*100,2) as succ_perc
 from table1 
-
-
+````
+|       | runner_id | succ_perc |
+|-------|-----------|-----------|
+|   1   |     1     |   17.98   |
+|   2   |     2     |   23.73   |
+|   3   |     3     |   33.33   |
+````sql
 --çözüm2
 SELECT runner_id, 
   round(count(distance)::numeric/ count(runner_id) * 100) AS delivery_percentage
 FROM runner_orders
 GROUP BY runner_id;
-`````
+````
 
-## C. Ingredient Optimisation
+|       | runner_id | delivery_percentage |
+|-------|-----------|--------------------|
+|   1   |     3     |         50         |
+|   2   |     2     |         75         |
+|   3   |     1     |        100         |
+
+## :pushpin: C. Ingredient Optimisation
 
 1. What are the standard ingredients for each pizza?
 
