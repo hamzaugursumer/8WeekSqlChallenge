@@ -1,4 +1,4 @@
-# :heavy_check_mark: Case Study #2 Pizza Runner
+# :heavy_check_mark: Case Study #2 - Pizza Runner
 ![Case Study 2 Image](https://8weeksqlchallenge.com/images/case-study-designs/2.png)
 
 ## :old_key: Cleaned Data - (customer_orders)
@@ -68,7 +68,7 @@ drop table runner_orders
 alter table runner_orders_clean rename to runner_orders
 `````
 
-#SOLUTIONS
+# SOLUTIONS
 
 ## :pushpin: A. Pizza Metrics
 
@@ -90,6 +90,9 @@ from customer_orders
 select count(distinct order_id) as unique_order 
 from customer_orders
 `````
+|       | unique_order |
+|-------|--------------|
+|   1   |      10      |
 
 3. How many successful orders were delivered by each runner?
 
@@ -104,6 +107,11 @@ ON ro.order_id = co.order_id
 where ro.cancellation is null
 group by 1
 `````
+|       | runner_id | count_order |
+|-------|-----------|-------------|
+|   1   |     1     |      4      |
+|   2   |     2     |      3      |
+|   3   |     3     |      1      |
 
 4. How many of each type of pizza was delivered?
 
@@ -118,6 +126,10 @@ ON ro.order_id = co.order_id
 where ro.cancellation is null
 group by 1
 `````
+|       | pizza_id | count_order |
+|-------|----------|-------------|
+|   1   |    1     |      9      |
+|   2   |    2     |      3      |
 
 
 5. How many Vegetarian and Meatlovers were ordered by each customer?
@@ -132,6 +144,16 @@ left join pizza_names as pa
 ON pa.pizza_id = co.pizza_id
 group by 1,2
 `````
+|       | pizza_name   | customer_id | count_pizza |
+|-------|--------------|-------------|-------------|
+|   1   | Vegetarian   |     101     |      1      |
+|   2   | Meatlovers   |     103     |      3      |
+|   3   | Vegetarian   |     105     |      1      |
+|   4   | Meatlovers   |     104     |      3      |
+|   5   | Meatlovers   |     101     |      2      |
+|   6   | Vegetarian   |     103     |      1      |
+|   7   | Meatlovers   |     102     |      2      |
+|   8   | Vegetarian   |     102     |      1      |
 
 6. What was the maximum number of pizzas delivered in a single order?
 
@@ -151,6 +173,9 @@ order by order_count desc
 select max(order_count)
 from table1
 `````
+|       | max |
+|-------|-----|
+|   1   |  3  |
 
 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
 
@@ -165,6 +190,13 @@ ON ro.order_id = co.order_id
 where cancellation is null
 group by 1
 `````
+|       | customer_id | change | not_change |
+|-------|-------------|--------|------------|
+|   1   |     101     |   0    |     2      |
+|   2   |     102     |   0    |     3      |
+|   3   |     103     |   3    |     0      |
+|   4   |     104     |   2    |     1      |
+|   5   |     105     |   1    |     0      |
 
 8. How many pizzas were delivered that had both exclusions and extras?
 
@@ -177,6 +209,9 @@ left join runner_orders as ro
 ON ro.order_id = co.order_id
 where cancellation is null 
 `````
+|       | both_change |
+|-------|-------------|
+|   1   |      1      |
 
 9. What was the total volume of pizzas ordered for each hour of the day?
 
@@ -188,6 +223,14 @@ from customer_orders as co
 group by 1
 order by 2 desc
 `````
+|       | hour_of_day | order_count |
+|-------|-------------|-------------|
+|   1   |     13      |      3      |
+|   2   |     18      |      3      |
+|   3   |     21      |      3      |
+|   4   |     23      |      3      |
+|   5   |     11      |      1      |
+|   6   |     19      |      1      |
 
 10. What was the volume of orders for each day of the week?
 
@@ -199,8 +242,14 @@ from customer_orders as co
 group by 1
 order by 2 desc
 `````
+|       | day_of_week | order_count |
+|-------|-------------|-------------|
+|   1   |  wednesday  |      5      |
+|   2   |  saturday   |      5      |
+|   3   |  thursday   |      3      |
+|   4   |   friday    |      1      |
 
-## B. Runner and Customer Experience
+## :pushpin: B. Runner and Customer Experience
 
 1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
 
