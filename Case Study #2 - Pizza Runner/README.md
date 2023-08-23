@@ -595,6 +595,9 @@ select concat((m.order_count*12+v.order_count*10),'$') as total_cost
 from meatlovers as m
 cross join vegetarian as v
 `````
+|       | total_cost |
+|-------|------------|
+|   1   |    138$    |
 
 2. What if there was an additional $1 charge for any pizza extras?
 Add cheese is $1 extra
@@ -622,6 +625,9 @@ from t1
 select concat('$', topping_revenue + pizza_revenue) as total_revenue
 from t2;
 `````
+|       | total_revenue |
+|-------|---------------|
+|   1   |     $142      |
 
 3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, 
 how would you design an additional table for this new dataset - generate a schema for this new table and insert 
@@ -648,6 +654,16 @@ VALUES ('1', '1'),
 
 select * from runner_rating
 `````
+|       | order_id | rating |   review   |
+|-------|----------|--------|------------|
+|   1   |    1     |   1    |   [null]   |
+|   2   |    2     |   1    |   [null]   |
+|   3   |    3     |   4    |   [null]   |
+|   4   |    4     |   1    |   [null]   |
+|   5   |    5     |   2    |   [null]   |
+|   6   |    7     |   5    |   [null]   |
+|   7   |    8     |   2    |   [null]   |
+|   8   |    10    |   5    |   [null]   |
 
 4. Using your newly generated table - can you join all of the information together to 
 form a table which has the following information for successful deliveries?
@@ -687,6 +703,16 @@ where ro.cancellation is null
 group by 1,2,3,4,5,6,7,8,9
 order by customer_id
 `````
+|       | customer_id | order_id | order_id-2 | rating |      order_time       |     pickup_time       | delivery_duration | duration | avg_speed | order_count |
+|-------|-------------|----------|------------|--------|-----------------------|-----------------------|-------------------|----------|-----------|-------------|
+|   1   |     101     |    1     |     1      |   1    | 2020-01-01 18:05:02   | 2020-01-01 18:15:34   |        10         |   32     |   37.50   |      1      |
+|   2   |     101     |    2     |     2      |   1    | 2020-01-01 19:00:52   | 2020-01-01 19:10:54   |        10         |   27     |   44.44   |      1      |
+|   3   |     102     |    3     |     3      |   4    | 2020-01-02 23:51:23   | 2020-01-03 00:12:37   |        21         |   20     |   40.20   |      2      |
+|   4   |     102     |    8     |     8      |   2    | 2020-01-09 23:54:33   | 2020-01-10 00:15:02   |        20         |   15     |   93.60   |      1      |
+|   5   |     103     |    4     |     4      |   1    | 2020-01-04 13:23:46   | 2020-01-04 13:53:03   |        29         |   40     |   35.10   |      3      |
+|   6   |     104     |    5     |     5      |   2    | 2020-01-08 21:00:29   | 2020-01-08 21:10:57   |        10         |   15     |   40.00   |      1      |
+|   7   |     104     |   10     |    10      |   5    | 2020-01-11 18:34:49   | 2020-01-11 18:50:20   |        15         |   10     |   60.00   |      2      |
+|   8   |     105     |    7     |     7      |   5    | 2020-01-08 21:20:29   | 2020-01-08 21:30:45   |        10         |   25     |   60.00   |      1      |
 
 5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner 
 is paid $0.30 per kilometre traveled how much money does Pizza Runner have left over after these deliveries?
@@ -707,3 +733,6 @@ where cancellation is null
 select total_cost-sum_distance as runner_orders_cost
 from table1 
 `````
+|       | runner_orders_cost |
+|-------|---------------------|
+|   1   |        73.38       |
