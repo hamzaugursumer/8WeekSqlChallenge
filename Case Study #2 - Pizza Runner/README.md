@@ -1,6 +1,7 @@
-# :heavy_check_mark: Case Study #2 Pizza Runner
+# :heavy_check_mark: Case Study #2 - Pizza Runner
 ![Case Study 2 Image](https://8weeksqlchallenge.com/images/case-study-designs/2.png)
-## CLEANED DATA - (customer_orders)
+
+## :old_key: Cleaned Data - (customer_orders)
 
 ````sql
 --CLEANED DATA (customer_orders)
@@ -26,7 +27,7 @@ SET exclusions =
 	
 	alter table customer_orders_clean rename to customer_orders
   `````
-## DATA CLEAN
+## :old_key: Data Clean 
 
 ````sql
 CREATE TABLE runner_orders_clean AS
@@ -67,8 +68,9 @@ drop table runner_orders
 alter table runner_orders_clean rename to runner_orders
 `````
 
-## SOLUTIONS
-## A. Pizza Metrics
+# :rocket: Solutions
+
+## :pushpin: A. Pizza Metrics
 
 1. How many pizzas were ordered?
 
@@ -77,6 +79,10 @@ alter table runner_orders_clean rename to runner_orders
 select count(order_id) as ordered_pizza 
 from customer_orders
 `````
+|       | ordered_pizza |
+|-------|---------------|
+|   1   |      14       |
+
 2. How many unique customer orders were made?
 
 (Kaç adet benzersiz müşteri siparişi verildi?)
@@ -84,6 +90,9 @@ from customer_orders
 select count(distinct order_id) as unique_order 
 from customer_orders
 `````
+|       | unique_order |
+|-------|--------------|
+|   1   |      10      |
 
 3. How many successful orders were delivered by each runner?
 
@@ -98,6 +107,11 @@ ON ro.order_id = co.order_id
 where ro.cancellation is null
 group by 1
 `````
+|       | runner_id | count_order |
+|-------|-----------|-------------|
+|   1   |     1     |      4      |
+|   2   |     2     |      3      |
+|   3   |     3     |      1      |
 
 4. How many of each type of pizza was delivered?
 
@@ -112,6 +126,10 @@ ON ro.order_id = co.order_id
 where ro.cancellation is null
 group by 1
 `````
+|       | pizza_id | count_order |
+|-------|----------|-------------|
+|   1   |    1     |      9      |
+|   2   |    2     |      3      |
 
 
 5. How many Vegetarian and Meatlovers were ordered by each customer?
@@ -126,6 +144,16 @@ left join pizza_names as pa
 ON pa.pizza_id = co.pizza_id
 group by 1,2
 `````
+|       | pizza_name   | customer_id | count_pizza |
+|-------|--------------|-------------|-------------|
+|   1   | Vegetarian   |     101     |      1      |
+|   2   | Meatlovers   |     103     |      3      |
+|   3   | Vegetarian   |     105     |      1      |
+|   4   | Meatlovers   |     104     |      3      |
+|   5   | Meatlovers   |     101     |      2      |
+|   6   | Vegetarian   |     103     |      1      |
+|   7   | Meatlovers   |     102     |      2      |
+|   8   | Vegetarian   |     102     |      1      |
 
 6. What was the maximum number of pizzas delivered in a single order?
 
@@ -145,6 +173,9 @@ order by order_count desc
 select max(order_count)
 from table1
 `````
+|       | max |
+|-------|-----|
+|   1   |  3  |
 
 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
 
@@ -159,6 +190,13 @@ ON ro.order_id = co.order_id
 where cancellation is null
 group by 1
 `````
+|       | customer_id | change | not_change |
+|-------|-------------|--------|------------|
+|   1   |     101     |   0    |     2      |
+|   2   |     102     |   0    |     3      |
+|   3   |     103     |   3    |     0      |
+|   4   |     104     |   2    |     1      |
+|   5   |     105     |   1    |     0      |
 
 8. How many pizzas were delivered that had both exclusions and extras?
 
@@ -171,6 +209,9 @@ left join runner_orders as ro
 ON ro.order_id = co.order_id
 where cancellation is null 
 `````
+|       | both_change |
+|-------|-------------|
+|   1   |      1      |
 
 9. What was the total volume of pizzas ordered for each hour of the day?
 
@@ -182,6 +223,14 @@ from customer_orders as co
 group by 1
 order by 2 desc
 `````
+|       | hour_of_day | order_count |
+|-------|-------------|-------------|
+|   1   |     13      |      3      |
+|   2   |     18      |      3      |
+|   3   |     21      |      3      |
+|   4   |     23      |      3      |
+|   5   |     11      |      1      |
+|   6   |     19      |      1      |
 
 10. What was the volume of orders for each day of the week?
 
@@ -193,8 +242,14 @@ from customer_orders as co
 group by 1
 order by 2 desc
 `````
+|       | day_of_week | order_count |
+|-------|-------------|-------------|
+|   1   |  wednesday  |      5      |
+|   2   |  saturday   |      5      |
+|   3   |  thursday   |      3      |
+|   4   |   friday    |      1      |
 
-## B. Runner and Customer Experience
+## :pushpin: B. Runner and Customer Experience
 
 1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
 
@@ -207,6 +262,12 @@ from runners
 group by 2
 order by 2 
 `````
+|       | weeks_ | count |
+|-------|--------|-------|
+|   1   |   2    |   1   |
+|   2   |   3    |   1   |
+|   3   |   1    |   2   |
+
 2. What was the average time in minutes it took for each runner to arrive at the Pizza
 
 (Her bir koşucunun Pizza'ya varması için geçen ortalama süre dakika cinsinden neydi?)
@@ -225,6 +286,11 @@ select runner_id,
 from table1
 order by 2 
 `````
+|       | runner_id | avg_pickup_min |
+|-------|-----------|----------------|
+|   1   |     3     |      10        |
+|   2   |     1     |      15        |
+|   3   |     2     |      23        |
 
 3. Is there any relationship between the number of pizzas and how long the order takes to prepare?
 
@@ -245,6 +311,11 @@ select order_count,
 from table1 
 group by 1
 `````
+|       | order_count | avg_prepare_time |
+|-------|-------------|------------------|
+|   1   |      3      |        29        |
+|   2   |      2      |        18        |
+|   3   |      1      |        12        |
 
 4. What was the average distance travelled for each customer?
 
@@ -258,6 +329,13 @@ ON ro.order_id = co.order_id
 group by 1
 order by 1
 `````
+|       | customer_id | avg_distance |
+|-------|-------------|--------------|
+|   1   |     101     |    20.00     |
+|   2   |     102     |    16.73     |
+|   3   |     103     |    23.40     |
+|   4   |     104     |    10.00     |
+|   5   |     105     |    25.00     |
 
 5. What was the difference between the longest and shortest delivery times for all orders?
 (Tüm siparişler için en uzun ve en kısa teslimat süreleri arasındaki fark neydi?)
@@ -272,6 +350,9 @@ where cancellation is null
 select (max_duration-min_duration) as diff_duration
 from table1 
 `````
+|       | diff_duration |
+|-------|---------------|
+|   1   |      30       |
 
 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
 
@@ -286,6 +367,16 @@ where cancellation is null
 group by 1,2
 order by 2
 `````
+| index | order_id | runner_id | average_speed |
+|-------|----------|-----------|---------------|
+|   1   |    1     |     1     |     37.50     |
+|   2   |    2     |     1     |     44.44     |
+|   3   |    3     |     1     |     40.20     |
+|   4   |    10    |     1     |     60.00     |
+|   5   |    4     |     2     |     35.10     |
+|   6   |    7     |     2     |     60.00     |
+|   7   |    8     |     2     |     93.60     |
+|   8   |    5     |     3     |     40.00     |
 
 7. What is the successful delivery percentage for each runner?
 (Her bir koşucu için başarılı teslimat yüzdesi nedir?)
@@ -303,16 +394,27 @@ group by 1
 select runner_id,
 	   round((order_count/avg_duration)*100,2) as succ_perc
 from table1 
-
-
+````
+|       | runner_id | succ_perc |
+|-------|-----------|-----------|
+|   1   |     1     |   17.98   |
+|   2   |     2     |   23.73   |
+|   3   |     3     |   33.33   |
+````sql
 --çözüm2
 SELECT runner_id, 
   round(count(distance)::numeric/ count(runner_id) * 100) AS delivery_percentage
 FROM runner_orders
 GROUP BY runner_id;
-`````
+````
 
-## C. Ingredient Optimisation
+|       | runner_id | delivery_percentage |
+|-------|-----------|--------------------|
+|   1   |     3     |         50         |
+|   2   |     2     |         75         |
+|   3   |     1     |        100         |
+
+## :pushpin: C. Ingredient Optimisation
 
 1. What are the standard ingredients for each pizza?
 
@@ -335,6 +437,22 @@ left join pizza_toppings as pt
 ON t1.recipes_id = pt.topping_id
 order by pizza_id
 `````
+|       | pizza_name  | topping_name |
+|-------|-------------|--------------|
+|   1   | Meatlovers  |   BBQ Sauce  |
+|   2   | Meatlovers  |   Pepperoni  |
+|   3   | Meatlovers  |    Cheese    |
+|   4   | Meatlovers  |    Salami    |
+|   5   | Meatlovers  |   Chicken    |
+|   6   | Meatlovers  |    Bacon     |
+|   7   | Meatlovers  |  Mushrooms   |
+|   8   | Meatlovers  |     Beef     |
+|   9   | Vegetarian  | Tomato Sauce |
+|  10   | Vegetarian  |    Cheese    |
+|  11   | Vegetarian  |  Mushrooms   |
+|  12   | Vegetarian  |    Onions    |
+|  13   | Vegetarian  |   Peppers    |
+|  14   | Vegetarian  |   Tomatoes   |
 
 2. What was the most commonly added extra?
 
@@ -355,6 +473,11 @@ ON pt.topping_id = t1.extras_id
 group by 2
 order by 1 desc
 `````
+|       | count | topping_name |
+|-------|-------|--------------|
+|   1   |   4   |    Bacon     |
+|   2   |   1   |   Chicken    |
+|   3   |   1   |    Cheese    |
 
 3. What was the most common exclusion?
 
@@ -374,6 +497,11 @@ ON pt.topping_id = t1.exclusions_id
 group by 2
 order by 1 desc
 `````
+|       | count_exclusions | topping_name |
+|-------|------------------|--------------|
+|   1   |        4         |    Cheese    |
+|   2   |        1         |  Mushrooms   |
+|   3   |        1         |  BBQ Sauce   |
 
 
 5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders 
@@ -421,8 +549,23 @@ ON t1.pizza_id = t2.pizza_id
 where t1.pizza_id = 1
 order by order_id
 `````
+|       | order_id |   topping_segment   |
+|-------|----------|---------------------|
+|   1   |    4     | Meatlovers - exc 4  |
+|   2   |    4     |  non exc or ext     |
+|   3   |    5     |  non exc or ext     |
+|   4   |    5     | Meatlover - ext 2x 1|
+|   5   |    9     | Meatlover - ext 2x 1|
+|   6   |    9     | Meatlovers - exc 4  |
+|   7   |    9     |  non exc or ext     |
+|   8   |    9     | Meatlover - ext 2x 5|
+|   9   |    10    | Meatlover - ext 2x 4|
+|  10   |    10    |  non exc or ext     |
+|  11   |    10    | Meatlover - ext 2x 1|
+|  12   |    10    | Meatlovers - exc 2  |
+|  13   |    10    | Meatlovers - exc 6  |
 
-## D. Pricing and Ratings
+## :pushpin: D. Pricing and Ratings
 
 1. If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money 
 has Pizza Runner made so far if there are no delivery fees?
@@ -452,6 +595,9 @@ select concat((m.order_count*12+v.order_count*10),'$') as total_cost
 from meatlovers as m
 cross join vegetarian as v
 `````
+|       | total_cost |
+|-------|------------|
+|   1   |    138$    |
 
 2. What if there was an additional $1 charge for any pizza extras?
 Add cheese is $1 extra
@@ -479,6 +625,9 @@ from t1
 select concat('$', topping_revenue + pizza_revenue) as total_revenue
 from t2;
 `````
+|       | total_revenue |
+|-------|---------------|
+|   1   |     $142      |
 
 3. The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, 
 how would you design an additional table for this new dataset - generate a schema for this new table and insert 
@@ -505,6 +654,16 @@ VALUES ('1', '1'),
 
 select * from runner_rating
 `````
+|       | order_id | rating |   review   |
+|-------|----------|--------|------------|
+|   1   |    1     |   1    |   [null]   |
+|   2   |    2     |   1    |   [null]   |
+|   3   |    3     |   4    |   [null]   |
+|   4   |    4     |   1    |   [null]   |
+|   5   |    5     |   2    |   [null]   |
+|   6   |    7     |   5    |   [null]   |
+|   7   |    8     |   2    |   [null]   |
+|   8   |    10    |   5    |   [null]   |
 
 4. Using your newly generated table - can you join all of the information together to 
 form a table which has the following information for successful deliveries?
@@ -544,6 +703,16 @@ where ro.cancellation is null
 group by 1,2,3,4,5,6,7,8,9
 order by customer_id
 `````
+|       | customer_id | order_id | order_id-2 | rating |      order_time       |     pickup_time       | delivery_duration | duration | avg_speed | order_count |
+|-------|-------------|----------|------------|--------|-----------------------|-----------------------|-------------------|----------|-----------|-------------|
+|   1   |     101     |    1     |     1      |   1    | 2020-01-01 18:05:02   | 2020-01-01 18:15:34   |        10         |   32     |   37.50   |      1      |
+|   2   |     101     |    2     |     2      |   1    | 2020-01-01 19:00:52   | 2020-01-01 19:10:54   |        10         |   27     |   44.44   |      1      |
+|   3   |     102     |    3     |     3      |   4    | 2020-01-02 23:51:23   | 2020-01-03 00:12:37   |        21         |   20     |   40.20   |      2      |
+|   4   |     102     |    8     |     8      |   2    | 2020-01-09 23:54:33   | 2020-01-10 00:15:02   |        20         |   15     |   93.60   |      1      |
+|   5   |     103     |    4     |     4      |   1    | 2020-01-04 13:23:46   | 2020-01-04 13:53:03   |        29         |   40     |   35.10   |      3      |
+|   6   |     104     |    5     |     5      |   2    | 2020-01-08 21:00:29   | 2020-01-08 21:10:57   |        10         |   15     |   40.00   |      1      |
+|   7   |     104     |   10     |    10      |   5    | 2020-01-11 18:34:49   | 2020-01-11 18:50:20   |        15         |   10     |   60.00   |      2      |
+|   8   |     105     |    7     |     7      |   5    | 2020-01-08 21:20:29   | 2020-01-08 21:30:45   |        10         |   25     |   60.00   |      1      |
 
 5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner 
 is paid $0.30 per kilometre traveled how much money does Pizza Runner have left over after these deliveries?
@@ -564,3 +733,6 @@ where cancellation is null
 select total_cost-sum_distance as runner_orders_cost
 from table1 
 `````
+|       | runner_orders_cost |
+|-------|---------------------|
+|   1   |        73.38       |
