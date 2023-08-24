@@ -1,0 +1,13 @@
+Giriş
+
+Danny, diğer işletmelerin kendi benzersiz müşteri tabanları için çevrimiçi reklam tıklama davranışlarındaki eğilimleri analiz etmelerine yardımcı olan bir dijital pazarlama ajansı olan Fresh Segments'i kurdu.
+
+Müşteriler müşteri listelerini Fresh Segments ekibiyle paylaşır, onlar da ilgi alanı metriklerini bir araya getirerek daha ileri analizler için tek bir veri kümesi oluşturur.
+
+Özellikle - farklı ilgi alanlarına yönelik kompozisyon ve sıralamalar, her bir müşteri için, her ay için her bir ilgi alanıyla ilgili çevrimiçi varlıklarla etkileşime giren müşteri listelerinin oranını gösterecek şekilde sağlanmaktadır.
+
+Danny, örnek bir müşteri için toplu ölçümleri analiz etmek ve müşteri listesi ve ilgi alanları hakkında bazı üst düzey bilgiler sağlamak için yardımınızı istedi.
+
+Mevcut Veriler
+
+Bu vaka çalışmasında soruları çözmek için kullanmanız gereken toplam 2 veri kümesi vardır.
