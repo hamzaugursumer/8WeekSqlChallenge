@@ -309,7 +309,7 @@ select round(count(customer_id) * 100.0 / (select count(customer_id) from table5
 from table5
 where percent_change > 5
 ````
-| index | percent_of_customers |
+|       | percent_of_customers |
 |-------|----------------------|
 |   1   | 31.80                |
 
@@ -587,7 +587,7 @@ order by data_required desc
 |  6  |     155     | 2020-03-01 00:00:00+03 |   104819.29   |
 |  7  |     192     | 2020-02-01 00:00:00+03 |   104502.66   |
 |  8  |     45      | 2020-01-01 00:00:00+03 |   103390.04   |
-
+* The first 8 lines of the 1720 lines of output are displayed
 
 
 
